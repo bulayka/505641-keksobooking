@@ -51,7 +51,16 @@ var MIN_GUESTS = 1;
 var MAX_GUESTS = 10;
 
 var pins = document.querySelector('.map__pins');
+var mapFilters = map.querySelector('.map__filters-container');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+
+var dictionary = {
+  'palace': 'Дворец',
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'bungalo': 'Бунгало'
+};
 
 var getRandomNumber = function (min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
@@ -114,9 +123,39 @@ var createPin = function (ad) {
   return pin;
 };
 
+var createCard = function (ad) {
+  var card = cardTemplate.cloneNode(true);
+
+  var cardTitle = card.querySelector('.popup__title');
+  var cardAddress = card.querySelector('.popup__text--address');
+  var cardPrice = card.querySelector('.popup__text--price');
+  var cardType = card.querySelector('.popup__type');
+  var cardCapacity = card.querySelector('.popup__text--capacity');
+  var cardTime = card.querySelector('.popup__text--time');
+  // var cardFeatures = card.querySelector('.popup__features');
+  var cardDescription = card.querySelector('.popup__description');
+  // var cardPhotos = card.querySelector('.popup__photos');
+  var cardAvatar = card.querySelector('.popup__avatar');
+
+  cardTitle.textContent = ad.offer.title;
+  cardAddress.textContent = ad.offer.address;
+  cardPrice.textContent = ad.offer.price + '₽/ночь';
+  cardType.textContent = dictionary[getRandomElement(TYPES)];
+  cardCapacity.textContent = ad.offer.rooms + ' комнаты для ' + ad.offer.guests + ' гостей ';
+  cardTime.textContent = 'Заезд после ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
+
+  cardDescription.textContent = ad.offer.description;
+  cardAvatar.src = ad.author.avatar;
+
+  return card;
+};
+
 var fragment = document.createDocumentFragment();
-var adsList = getAdsList();
+var adsList = getAdsList(OFFERS_COUNT);
 for (var i = 0; i < OFFERS_COUNT; i++) {
   fragment.appendChild(createPin(adsList[i]));
 }
+
 pins.appendChild(fragment);
+fragment.appendChild(createCard(adsList[0]));
+map.insertBefore(fragment, mapFilters);
