@@ -5,50 +5,53 @@ map.classList.remove('map--faded');
 var mapPin = document.querySelector('.map__pin');
 
 var OFFERS_COUNT = 8;
-var TITLES = [
-  'Большая уютная квартира',
-  'Маленькая неуютная квартира',
-  'Огромный прекрасный дворец',
-  'Маленький ужасный дворец',
-  'Красивый гостевой домик',
-  'Некрасивый негостеприимный домик',
-  'Уютное бунгало далеко от моря',
-  'Неуютное бунгало по колено в воде'
-];
-var TYPES = [
-  'palace',
-  'flat',
-  'house',
-  'bungalo'
-];
-var CHECKIN_TIMES = [
-  '12:00',
-  '13:00',
-  '14:00'
-];
-var CHECKOUT_TIMES = [
-  '12:00',
-  '13:00',
-  '14:00'];
-var FEATURES = [
-  'wifi',
-  'dishwasher',
-  'parking',
-  'washer',
-  'elevator',
-  'conditioner'
-];
-var PHOTOS = [
-  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
-  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-  'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
-];
-var MIN_PRICE = 1000;
-var MAX_PRICE = 1000000;
-var MIN_ROOMS = 1;
-var MAX_ROOMS = 5;
-var MIN_GUESTS = 1;
-var MAX_GUESTS = 10;
+var offerParameters = {
+  TITLES: [
+    'Большая уютная квартира',
+    'Маленькая неуютная квартира',
+    'Огромный прекрасный дворец',
+    'Маленький ужасный дворец',
+    'Красивый гостевой домик',
+    'Некрасивый негостеприимный домик',
+    'Уютное бунгало далеко от моря',
+    'Неуютное бунгало по колено в воде'
+  ],
+  TYPES: [
+    'palace',
+    'flat',
+    'house',
+    'bungalo'
+  ],
+  CHECKIN_TIMES: [
+    '12:00',
+    '13:00',
+    '14:00'
+  ],
+  CHECKOUT_TIMES: [
+    '12:00',
+    '13:00',
+    '14:00'
+  ],
+  FEATURES: [
+    'wifi',
+    'dishwasher',
+    'parking',
+    'washer',
+    'elevator',
+    'conditioner'
+  ],
+  PHOTOS: [
+    'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+    'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+    'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
+  ],
+  MIN_PRICE: 1000,
+  MAX_PRICE: 1000000,
+  MIN_ROOMS: 1,
+  MAX_ROOMS: 5,
+  MIN_GUESTS: 1,
+  MAX_GUESTS: 10
+};
 
 var pins = document.querySelector('.map__pins');
 var mapFilters = map.querySelector('.map__filters-container');
@@ -71,26 +74,30 @@ var getRandomElement = function (array) {
   return array[index];
 };
 
-var getAd = function () {
+var getAvatarUrl = function (index) {
+  return (index > 9) ? 'img/avatars/user' + index + '.png' : 'img/avatars/user0' + index + '.png';
+};
+
+var getAd = function (number) {
   var locationX = getRandomNumber(0, 1200);
   var locationY = getRandomNumber(130, 630);
 
   var ad = {
     author: {
-      avatar: 'img/avatars/user' + '0' + getRandomNumber(1, OFFERS_COUNT) + '.png'
+      avatar: getAvatarUrl(number)
     },
     offer: {
-      title: getRandomElement(TITLES),
+      title: offerParameters.TITLES[number],
       address: locationX + ', ' + locationY,
-      price: getRandomNumber(MIN_PRICE, MAX_PRICE),
-      type: getRandomElement(TYPES),
-      rooms: getRandomNumber(MIN_ROOMS, MAX_ROOMS),
-      guests: getRandomNumber(MIN_GUESTS, MAX_GUESTS),
-      checkin: getRandomElement(CHECKIN_TIMES),
-      checkout: getRandomElement(CHECKOUT_TIMES),
-      features: getRandomElement(FEATURES),
+      price: getRandomNumber(offerParameters.MIN_PRICE, offerParameters.MAX_PRICE),
+      type: getRandomElement(offerParameters.TYPES),
+      rooms: getRandomNumber(offerParameters.MIN_ROOMS, offerParameters.MAX_ROOMS),
+      guests: getRandomNumber(offerParameters.MIN_GUESTS, offerParameters.MAX_GUESTS),
+      checkin: getRandomElement(offerParameters.CHECKIN_TIMES),
+      checkout: getRandomElement(offerParameters.CHECKOUT_TIMES),
+      features: getRandomElement(offerParameters.FEATURES),
       description: '',
-      photos: getRandomElement(PHOTOS)
+      photos: getRandomElement(offerParameters.PHOTOS)
     },
     location: {
       x: locationX,
@@ -103,7 +110,7 @@ var getAd = function () {
 
 var getAdsList = function () {
   var ads = [];
-  for (var i = 0; i < OFFERS_COUNT; i++) {
+  for (var i = 1; i <= OFFERS_COUNT; i++) {
     ads.push(getAd(i));
   }
   return ads;
@@ -140,7 +147,7 @@ var createCard = function (ad) {
   cardTitle.textContent = ad.offer.title;
   cardAddress.textContent = ad.offer.address;
   cardPrice.textContent = ad.offer.price + '₽/ночь';
-  cardType.textContent = dictionary[getRandomElement(TYPES)];
+  cardType.textContent = dictionary[getRandomElement(offerParameters.TYPES)];
   cardCapacity.textContent = ad.offer.rooms + ' комнаты для ' + ad.offer.guests + ' гостей ';
   cardTime.textContent = 'Заезд после ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
 
