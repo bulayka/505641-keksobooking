@@ -79,7 +79,7 @@ var getRandomElement = function (array) {
 };
 
 var getRandomArrayItem = function (array) {
-  return getRandomNumber(0, array.length);
+  return getRandomNumber(0, array.length - 1);
 };
 
 var getRandomArrayList = function (array, length) {
@@ -168,8 +168,8 @@ var getCardImages = function () {
 
   for (var i = 0; i < offerParameters.PHOTOS.length; i++) {
     var imageItem = document.createElement('img');
-    imageItem.scr = 'http://o0.github.io/assets/images/tokyo/hotel1.jpg';
-    imageItem.classList.add = 'popup__photo';
+    imageItem.src = 'http://o0.github.io/assets/images/tokyo/hotel1.jpg';
+    imageItem.classList.add('popup__photo');
     imageItem.width = CARD_PHOTOS.width;
     imageItem.height = CARD_PHOTOS.height;
     imageItem.alt = 'Фотография жилья';
