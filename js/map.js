@@ -1,10 +1,13 @@
 'use strict';
 
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
 var mapPin = document.querySelector('.map__pin');
-
+var pins = document.querySelector('.map__pins');
+var mapFilters = map.querySelector('.map__filters-container');
+var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var OFFERS_COUNT = 8;
+
 var offerParameters = {
   TITLES: [
     'Большая уютная квартира',
@@ -53,16 +56,17 @@ var offerParameters = {
   MAX_GUESTS: 10
 };
 
-var pins = document.querySelector('.map__pins');
-var mapFilters = map.querySelector('.map__filters-container');
-var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-
-var dictionary = {
+var DICTIONARY = {
   'palace': 'Дворец',
   'flat': 'Квартира',
   'house': 'Дом',
   'bungalo': 'Бунгало'
+};
+
+var CARD_PHOTOS = {
+  width: 45,
+  height: 40,
+  alt: 'Фотография жилья'
 };
 
 var getRandomNumber = function (min, max) {
@@ -74,11 +78,28 @@ var getRandomElement = function (array) {
   return array[index];
 };
 
-var getAvatarUrl = function (index) {
-  return (index > 9) ? 'img/avatars/user' + index + '.png' : 'img/avatars/user0' + index + '.png';
+var getRandomArrayItem = function (array) {
+  return getRandomNumber(0, array.length);
 };
 
-var getAd = function (number) {
+var getRandomArrayList = function (array, length) {
+  var list = [];
+
+  for (var i = 0; i < length; i++) {
+    var item = array[getRandomArrayItem(array)];
+    if (list.indexOf(item) === -1) {
+      list.push(item);
+    }
+  }
+
+  return list;
+};
+
+var getAvatarUrl = function (index) {
+  return 'img/avatars/user0' + index + '.png';
+};
+
+var createAd = function (number) {
   var locationX = getRandomNumber(0, 1200);
   var locationY = getRandomNumber(130, 630);
 
@@ -95,7 +116,7 @@ var getAd = function (number) {
       guests: getRandomNumber(offerParameters.MIN_GUESTS, offerParameters.MAX_GUESTS),
       checkin: getRandomElement(offerParameters.CHECKIN_TIMES),
       checkout: getRandomElement(offerParameters.CHECKOUT_TIMES),
-      features: getRandomElement(offerParameters.FEATURES),
+      features: getRandomArrayList(offerParameters.FEATURES, getRandomNumber(1, offerParameters.FEATURES.length)),
       description: '',
       photos: getRandomElement(offerParameters.PHOTOS)
     },
@@ -111,7 +132,7 @@ var getAd = function (number) {
 var getAdsList = function () {
   var ads = [];
   for (var i = 1; i <= OFFERS_COUNT; i++) {
-    ads.push(getAd(i));
+    ads.push(createAd(i));
   }
   return ads;
 };
@@ -130,29 +151,58 @@ var createPin = function (ad) {
   return pin;
 };
 
+var getCardFeatures = function (features) {
+  var featuresItems = [];
+
+  features.forEach(function (item) {
+    var featuresItem = document.createElement('li');
+    featuresItem.classList.add('popup__feature', 'popup__feature--' + item);
+    featuresItems.push(featuresItem);
+  });
+
+  return featuresItems;
+};
+
+var getCardImages = function () {
+  var imageList = [];
+
+  for (var i = 0; i < offerParameters.PHOTOS.length; i++) {
+    var imageItem = document.createElement('img');
+    imageItem.scr = 'http://o0.github.io/assets/images/tokyo/hotel1.jpg';
+    imageItem.classList.add = 'popup__photo';
+    imageItem.width = CARD_PHOTOS.width;
+    imageItem.height = CARD_PHOTOS.height;
+    imageItem.alt = 'Фотография жилья';
+    imageList.push(imageItem);
+  }
+
+  return imageList;
+};
+
+var appendElements = function (elements, parent) {
+  elements.forEach(function (el) {
+    parent.appendChild(el);
+  });
+};
+
 var createCard = function (ad) {
   var card = cardTemplate.cloneNode(true);
 
-  var cardTitle = card.querySelector('.popup__title');
-  var cardAddress = card.querySelector('.popup__text--address');
-  var cardPrice = card.querySelector('.popup__text--price');
-  var cardType = card.querySelector('.popup__type');
-  var cardCapacity = card.querySelector('.popup__text--capacity');
-  var cardTime = card.querySelector('.popup__text--time');
-  // var cardFeatures = card.querySelector('.popup__features');
-  var cardDescription = card.querySelector('.popup__description');
-  // var cardPhotos = card.querySelector('.popup__photos');
-  var cardAvatar = card.querySelector('.popup__avatar');
+  var cardFeatures = card.querySelector('.popup__features');
+  var cardPhotos = card.querySelector('.popup__photos');
 
-  cardTitle.textContent = ad.offer.title;
-  cardAddress.textContent = ad.offer.address;
-  cardPrice.textContent = ad.offer.price + '₽/ночь';
-  cardType.textContent = dictionary[getRandomElement(offerParameters.TYPES)];
-  cardCapacity.textContent = ad.offer.rooms + ' комнаты для ' + ad.offer.guests + ' гостей ';
-  cardTime.textContent = 'Заезд после ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
+  card.querySelector('.popup__title').textContent = ad.offer.title;
+  card.querySelector('.popup__text--address').textContent = ad.offer.address;
+  card.querySelector('.popup__text--price').textContent = ad.offer.price + '₽/ночь';
+  card.querySelector('.popup__type').textContent = DICTIONARY[getRandomElement(offerParameters.TYPES)];
+  card.querySelector('.popup__text--capacity').textContent = ad.offer.rooms + ' комнаты для ' + ad.offer.guests + ' гостей ';
+  card.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
 
-  cardDescription.textContent = ad.offer.description;
-  cardAvatar.src = ad.author.avatar;
+  card.querySelector('.popup__description').textContent = ad.offer.description;
+  card.querySelector('.popup__avatar').src = ad.author.avatar;
+
+  appendElements(getCardFeatures(ad.offer.features), cardFeatures);
+  appendElements(getCardImages(ad.offer.photos), cardPhotos);
 
   return card;
 };
@@ -166,3 +216,5 @@ for (var i = 0; i < OFFERS_COUNT; i++) {
 pins.appendChild(fragment);
 fragment.appendChild(createCard(adsList[0]));
 map.insertBefore(fragment, mapFilters);
+
+map.classList.remove('map--faded');
