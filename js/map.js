@@ -95,6 +95,17 @@ var getRandomArrayList = function (array, length) {
   return list;
 };
 
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+
+    return array;
+};
+
 var getAvatarUrl = function (index) {
   return 'img/avatars/user0' + index + '.png';
 };
@@ -118,7 +129,7 @@ var createAd = function (number) {
       checkout: getRandomElement(offerParameters.CHECKOUT_TIMES),
       features: getRandomArrayList(offerParameters.FEATURES, getRandomNumber(1, offerParameters.FEATURES.length)),
       description: '',
-      photos: getRandomElement(offerParameters.PHOTOS)
+      photos: shuffleArray(offerParameters.PHOTOS.slice())
     },
     location: {
       x: locationX,
@@ -168,7 +179,7 @@ var getCardImages = function () {
 
   for (var i = 0; i < offerParameters.PHOTOS.length; i++) {
     var imageItem = document.createElement('img');
-    imageItem.src = 'http://o0.github.io/assets/images/tokyo/hotel1.jpg';
+    imageItem.src = offerParameters.PHOTOS[i];
     imageItem.classList.add('popup__photo');
     imageItem.width = CARD_PHOTOS.width;
     imageItem.height = CARD_PHOTOS.height;
