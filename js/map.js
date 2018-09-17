@@ -228,6 +228,7 @@ var mapPinMain = document.querySelector('.map__pin--main');
 var adForm = document.querySelector('.ad-form');
 var adFormFieldsets = adForm.querySelectorAll('fieldset');
 var addressInput = adForm.querySelector('#address');
+var popupClose = document.querySelector('.popup__close');
 
 var getActiveCondition = function () {
   map.classList.remove('map--faded');
@@ -255,6 +256,20 @@ var setAddress = function () {
 };
 
 setAddress();
+
+// var openPopup = function () {
+// };
+
+var closePopup = function () {
+  map.removeChild(document.querySelector('.map__card'));
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === 27) {
+    closePopup();
+  }
+};
 
 fragment.appendChild(createCard(adsList[0]));
 // map.insertBefore(fragment, mapFilters);
