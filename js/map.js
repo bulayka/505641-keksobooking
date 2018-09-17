@@ -1,12 +1,12 @@
 'use strict';
 
+var OFFERS_COUNT = 8;
 var map = document.querySelector('.map');
 var mapPin = document.querySelector('.map__pin');
 var pins = document.querySelector('.map__pins');
 var mapFilters = map.querySelector('.map__filters-container');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-var OFFERS_COUNT = 8;
 
 var offerParameters = {
   TITLES: [
@@ -224,8 +224,46 @@ for (var i = 0; i < OFFERS_COUNT; i++) {
   fragment.appendChild(createPin(adsList[i]));
 }
 
-pins.appendChild(fragment);
-fragment.appendChild(createCard(adsList[0]));
-map.insertBefore(fragment, mapFilters);
+var mapPinMain = document.querySelector('.map__pin--main');
+var adForm = document.querySelector('.ad-form');
+var adFormFieldsets = adForm.querySelectorAll('fieldset');
+var addressInput = adForm.querySelector('#address');
 
-map.classList.remove('map--faded');
+var getActiveCondition = function () {
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+
+  for (var j = 0; j < adFormFieldsets.length; j++) {
+    adFormFieldsets[j].disabled = false;
+  }
+};
+
+var getUnactivateCondition = function () {
+  map.classList.add('map--faded');
+  adForm.classList.add('ad-form--disabled');
+
+  for (var j = 0; j < adFormFieldsets.length; j++) {
+    adFormFieldsets[j].disabled = true;
+  }
+};
+
+var setAddress = function () {
+  var locationX = Math.round(parseInt(mapPinMain.style.top, 10) + mapPinMain.offsetWidth / 2);
+  var locationY = Math.round(parseInt(mapPinMain.style.left, 10) + mapPinMain.offsetHeight / 2);
+
+  addressInput.value = locationX + ', ' + locationY;
+};
+
+setAddress();
+
+fragment.appendChild(createCard(adsList[0]));
+// map.insertBefore(fragment, mapFilters);
+
+window.onload = function () {
+  getUnactivateCondition();
+};
+
+mapPinMain.addEventListener('mouseup', function () {
+  pins.appendChild(fragment);
+  getActiveCondition();
+});
