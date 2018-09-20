@@ -215,12 +215,13 @@ var createCard = function (ad) {
   appendElements(getCardFeatures(ad.offer.features), cardFeatures);
   appendElements(getCardImages(ad.offer.photos), cardPhotos);
 
-  var popup = card.querySelector('.popup');
-  var popupCloseButton = popup.querySelector('.popup__close');
+  var popup = card;
+  var popupCloseButton = card.querySelector('.popup__close');
 
   popupCloseButton.addEventListener('click', function () {
     closePopup();
   });
+  document.addEventListener('keydown', onPopupEscPress);
 
   return card;
 };
@@ -263,6 +264,7 @@ window.onload = function () {
 
 mapPinMain.addEventListener('mouseup', function () {
   pins.appendChild(fragment);
+  fragment.appendChild(createCard(adsList[0]));
   getActiveCondition();
   openPopup();
 });
@@ -283,12 +285,11 @@ var onPopupEscPress = function (evt) {
 };
 
 var openPopup = function () {
-  fragment.appendChild(createCard(adsList[0]));
   document.addEventListener('keydown', onPopupEscPress);
 };
 
 var closePopup = function () {
-  popup.classList.add('hidden');
+  // popup.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
 };
 
