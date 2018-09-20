@@ -215,6 +215,13 @@ var createCard = function (ad) {
   appendElements(getCardFeatures(ad.offer.features), cardFeatures);
   appendElements(getCardImages(ad.offer.photos), cardPhotos);
 
+  var popup = card.querySelector('.popup');
+  var popupCloseButton = popup.querySelector('.popup__close');
+
+  popupCloseButton.addEventListener('click', function () {
+    closePopup();
+  });
+
   return card;
 };
 
@@ -228,8 +235,6 @@ var mapPinMain = document.querySelector('.map__pin--main');
 var adForm = document.querySelector('.ad-form');
 var adFormFieldsets = adForm.querySelectorAll('fieldset');
 var addressInput = adForm.querySelector('#address');
-var popup = document.querySelector('.popup');
-var popupCloseButton = document.querySelector('.popup__close');
 
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
@@ -279,18 +284,12 @@ var onPopupEscPress = function (evt) {
 
 var openPopup = function () {
   fragment.appendChild(createCard(adsList[0]));
-  alert('open popup');
   document.addEventListener('keydown', onPopupEscPress);
 };
 
 var closePopup = function () {
-  alert('close popup');
+  popup.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
 };
-
-popupCloseButton.addEventListener('click', function () {
-  closePopup();
-});
-
 
 // map.insertBefore(fragment, mapFilters);
