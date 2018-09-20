@@ -228,7 +228,11 @@ var mapPinMain = document.querySelector('.map__pin--main');
 var adForm = document.querySelector('.ad-form');
 var adFormFieldsets = adForm.querySelectorAll('fieldset');
 var addressInput = adForm.querySelector('#address');
-var popupClose = document.querySelector('.popup__close');
+var popup = document.querySelector('.popup');
+var popupCloseButton = document.querySelector('.popup__close');
+
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 
 var getActiveCondition = function () {
   map.classList.remove('map--faded');
@@ -248,6 +252,16 @@ var getUnactivateCondition = function () {
   }
 };
 
+window.onload = function () {
+  getUnactivateCondition();
+};
+
+mapPinMain.addEventListener('mouseup', function () {
+  pins.appendChild(fragment);
+  getActiveCondition();
+  openPopup();
+});
+
 var setAddress = function () {
   var locationX = Math.round(parseInt(mapPinMain.style.top, 10) + mapPinMain.offsetWidth / 2);
   var locationY = Math.round(parseInt(mapPinMain.style.left, 10) + mapPinMain.offsetHeight / 2);
@@ -257,28 +271,26 @@ var setAddress = function () {
 
 setAddress();
 
-// var openPopup = function () {
-// };
-
-var closePopup = function () {
-  map.removeChild(document.querySelector('.map__card'));
-  document.removeEventListener('keydown', onPopupEscPress);
-};
-
 var onPopupEscPress = function (evt) {
-  if (evt.keyCode === 27) {
+  if (evt.keyCode === ESC_KEYCODE) {
     closePopup();
   }
 };
 
-fragment.appendChild(createCard(adsList[0]));
-// map.insertBefore(fragment, mapFilters);
-
-window.onload = function () {
-  getUnactivateCondition();
+var openPopup = function () {
+  fragment.appendChild(createCard(adsList[0]));
+  alert('open popup');
+  document.addEventListener('keydown', onPopupEscPress);
 };
 
-mapPinMain.addEventListener('mouseup', function () {
-  pins.appendChild(fragment);
-  getActiveCondition();
+var closePopup = function () {
+  alert('close popup');
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+popupCloseButton.addEventListener('click', function () {
+  closePopup();
 });
+
+
+// map.insertBefore(fragment, mapFilters);
