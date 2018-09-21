@@ -169,25 +169,6 @@ var createPin = function (ad, adIndex) {
   return pin;
 };
 
-pinsContainer.addEventListener('click', function (evt) {
-  var target = evt.target;
-
-  while (target !== pinsContainer) {
-    if (target.tagName === 'BUTTON') {
-      var newCard = createCard(adsList[target.dataset.id]);
-      pinsContainer.appendChild(newCard);
-
-      var cardsAmount = document.querySelectorAll('.map__card');
-
-      if (cardsAmount.length !== 1) {
-        closePopup();
-      }
-      return;
-    }
-    target = target.parentNode;
-  }
-});
-
 var getCardFeatures = function (features) {
   var featuresItems = [];
 
@@ -282,6 +263,27 @@ window.onload = function () {
 mapPinMain.addEventListener('mouseup', function () {
   pinsContainer.appendChild(fragment);
   getActiveCondition();
+});
+
+/* Устанавливаем обработчик клика на контейнер с пинами */
+pinsContainer.addEventListener('click', function (evt) {
+  var target = evt.target; /* Записываем в переменную target элемент, на который кликнули*/
+
+  while (target !== pinsContainer) { /* Условие выполнения дальнейшего тела цикла while - если попадаем внутрь контейнера pinsContainer, то все ок - код выполняется, если нет - то внутрь while даже не зайдем */
+    if (target.tagName === 'BUTTON') { /* Проверяем попали кликом на элемент с тегом button (как раз наш пин) или нет. Если попали - то выполняем код тела цикла, если нет - переопределяем target (поднимаемся до родителя). Если дошли до контейнера pinsContainer, то элемент, нужный нам - не найдем, и цикл while останавливается */
+      var newCard = createCard(adsList[target.dataset.id]);
+      pinsContainer.appendChild(newCard);
+
+      var cardsAmount = document.querySelectorAll('.map__card');
+
+      if (cardsAmount.length !== 1) {
+        closePopup();
+      }
+      document.addEventListener('keydown', onPopupEscPress);
+      return;
+    }
+    target = target.parentNode;
+  }
 });
 
 var setAddress = function () {
