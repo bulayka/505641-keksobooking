@@ -272,7 +272,7 @@ pinsContainer.addEventListener('click', function (evt) {
   while (target !== pinsContainer) { /* Условие выполнения дальнейшего тела цикла while - если попадаем внутрь контейнера pinsContainer, то все ок - код выполняется, если нет - то внутрь while даже не зайдем */
     if (target.tagName === 'BUTTON') { /* Проверяем попали кликом на элемент с тегом button (как раз наш пин) или нет. Если попали - то выполняем код тела цикла, если нет - переопределяем target (поднимаемся до родителя). Если дошли до контейнера pinsContainer, то элемент, нужный нам - не найдем, и цикл while останавливается */
       var newCard = createCard(adsList[target.dataset.id]);
-      pinsContainer.appendChild(newCard);
+      map.insertBefore(newCard, mapFilters);
 
       var cardsAmount = document.querySelectorAll('.map__card');
 
@@ -301,9 +301,9 @@ var onPopupEscPress = function (evt) {
   }
 };
 
-var openPopup = function () {
-  document.addEventListener('keydown', onPopupEscPress);
-};
+// var openPopup = function () {
+//   document.addEventListener('keydown', onPopupEscPress);
+// };
 
 var closePopup = function () {
   var mapCard = document.querySelector('.map__card');
@@ -311,5 +311,3 @@ var closePopup = function () {
 
   document.removeEventListener('keydown', onPopupEscPress);
 };
-
-// map.insertBefore(fragment, mapFilters);
