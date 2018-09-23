@@ -1,12 +1,18 @@
 'use strict';
 
+var OFFERS_COUNT = 8;
+var ESC_KEYCODE = 27;
 var map = document.querySelector('.map');
 var mapPin = document.querySelector('.map__pin');
-var pins = document.querySelector('.map__pins');
+var mapPinMain = document.querySelector('.map__pin--main');
+var pinsContainer = document.querySelector('.map__pins');
 var mapFilters = map.querySelector('.map__filters-container');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-var OFFERS_COUNT = 8;
+var adForm = document.querySelector('.ad-form');
+var adFormFieldsets = adForm.querySelectorAll('fieldset');
+var addressInput = adForm.querySelector('#address');
+
 
 var offerParameters = {
   TITLES: [
@@ -119,7 +125,7 @@ var createAd = function (number) {
       avatar: getAvatarUrl(number)
     },
     offer: {
-      title: offerParameters.TITLES[number],
+      title: offerParameters.TITLES[number - 1],
       address: locationX + ', ' + locationY,
       price: getRandomNumber(offerParameters.MIN_PRICE, offerParameters.MAX_PRICE),
       type: getRandomElement(offerParameters.TYPES),
@@ -148,7 +154,7 @@ var getAdsList = function () {
   return ads;
 };
 
-var createPin = function (ad) {
+var createPin = function (ad, adIndex) {
   var pin = pinTemplate.cloneNode(true);
   var mapPinWidth = mapPin.offsetWidth;
   var mapPinHeight = mapPin.offsetHeight;
@@ -158,6 +164,7 @@ var createPin = function (ad) {
   pin.style.top = (ad.location.y - mapPinHeight) + 'px';
   pinImage.src = ad.author.avatar;
   pinImage.alt = ad.offer.title;
+  pin.dataset.id = adIndex;
 
   return pin;
 };
@@ -215,17 +222,92 @@ var createCard = function (ad) {
   appendElements(getCardFeatures(ad.offer.features), cardFeatures);
   appendElements(getCardImages(ad.offer.photos), cardPhotos);
 
+  var popupCloseButton = card.querySelector('.popup__close');
+
+  popupCloseButton.addEventListener('click', function () {
+    closePopup();
+  });
+  document.addEventListener('keydown', onPopupEscPress);
+
   return card;
 };
 
 var fragment = document.createDocumentFragment();
 var adsList = getAdsList(OFFERS_COUNT);
 for (var i = 0; i < OFFERS_COUNT; i++) {
-  fragment.appendChild(createPin(adsList[i]));
+  fragment.appendChild(createPin(adsList[i], i));
 }
 
-pins.appendChild(fragment);
-fragment.appendChild(createCard(adsList[0]));
-map.insertBefore(fragment, mapFilters);
+var getActiveCondition = function () {
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
 
-map.classList.remove('map--faded');
+  for (var j = 0; j < adFormFieldsets.length; j++) {
+    adFormFieldsets[j].disabled = false;
+  }
+};
+
+var getUnactivateCondition = function () {
+  map.classList.add('map--faded');
+  adForm.classList.add('ad-form--disabled');
+
+  for (var j = 0; j < adFormFieldsets.length; j++) {
+    adFormFieldsets[j].disabled = true;
+  }
+};
+
+window.onload = function () {
+  getUnactivateCondition();
+};
+
+mapPinMain.addEventListener('mouseup', function () {
+  pinsContainer.appendChild(fragment);
+  getActiveCondition();
+});
+
+/* Устанавливаем обработчик клика на контейнер с пинами */
+pinsContainer.addEventListener('click', function (evt) {
+  var target = evt.target; /* Записываем в переменную target элемент, на который кликнули*/
+
+  while (target !== pinsContainer) { /* Условие выполнения дальнейшего тела цикла while - если попадаем внутрь контейнера pinsContainer, то все ок - код выполняется, если нет - то внутрь while даже не зайдем */
+    if (target.tagName === 'BUTTON') { /* Проверяем попали кликом на элемент с тегом button (как раз наш пин) или нет. Если попали - то выполняем код тела цикла, если нет - переопределяем target (поднимаемся до родителя). Если дошли до контейнера pinsContainer, то элемент, нужный нам - не найдем, и цикл while останавливается */
+      var newCard = createCard(adsList[target.dataset.id]);
+      map.insertBefore(newCard, mapFilters);
+
+      var cardsAmount = document.querySelectorAll('.map__card');
+
+      if (cardsAmount.length !== 1) {
+        closePopup();
+      }
+      document.addEventListener('keydown', onPopupEscPress);
+      return;
+    }
+    target = target.parentNode;
+  }
+});
+
+var setAddress = function () {
+  var locationX = Math.round(parseInt(mapPinMain.style.top, 10) + mapPinMain.offsetWidth / 2);
+  var locationY = Math.round(parseInt(mapPinMain.style.left, 10) + mapPinMain.offsetHeight / 2);
+
+  addressInput.value = locationX + ', ' + locationY;
+};
+
+setAddress();
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
+
+// var openPopup = function () {
+//   document.addEventListener('keydown', onPopupEscPress);
+// };
+
+var closePopup = function () {
+  var mapCard = document.querySelector('.map__card');
+  mapCard.remove();
+
+  document.removeEventListener('keydown', onPopupEscPress);
+};
