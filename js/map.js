@@ -317,7 +317,7 @@ var closePopup = function () {
 // 2.3. Поле «Тип жилья» влияет на минимальное значение поля «Цена за ночь»:
 var houseType = document.querySelector('#type');
 var inputPrice = adForm.querySelector('#price');
-var optionValue = {
+var OPTION_VALUE = {
   bungalo: 0,
   flat: 1000,
   house: 5000,
@@ -326,8 +326,7 @@ var optionValue = {
 
 houseType.addEventListener('change', function (evt) {
   var currentValue = evt.target.value;
-  inputPrice.placeholder = optionValue[currentValue];
-  inputPrice.min = optionValue[currentValue];
+  inputPrice.min = OPTION_VALUE[currentValue];
 });
 
 // 2.5. Поля «Время заезда» и «Время выезда» синхронизированы
@@ -349,7 +348,7 @@ timeOut.addEventListener('change', function (evt) {
 var roomNumber = document.querySelector('#room_number');
 var capacity = document.querySelector('#capacity');
 
-roomNumber.addEventListener('change', function () {
+var onRoomsSelect = function () {
   if ((roomNumber.value === '100') && (capacity.value === '0')) {
     capacity.setCustomValidity('');
   } else if ((roomNumber.value === '100') && (capacity.value !== '0')) {
@@ -361,4 +360,8 @@ roomNumber.addEventListener('change', function () {
   } else {
     capacity.setCustomValidity('В комнате максимум один гость');
   }
-});
+};
+
+var submitForm = adForm.querySelector('.ad-form__submit');
+
+submitForm.addEventListener('click', onRoomsSelect);
