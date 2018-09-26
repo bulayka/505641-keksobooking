@@ -2,6 +2,10 @@
 
 var OFFERS_COUNT = 8;
 var ESC_KEYCODE = 27;
+var MIN_X = 0;
+var MAX_X = 1200;
+var MIN_Y = 130;
+var MAX_Y = 630;
 var map = document.querySelector('.map');
 var mapPin = document.querySelector('.map__pin');
 var mapPinMain = document.querySelector('.map__pin--main');
@@ -12,7 +16,6 @@ var cardTemplate = document.querySelector('#card').content.querySelector('.map__
 var adForm = document.querySelector('.ad-form');
 var adFormFieldsets = adForm.querySelectorAll('fieldset');
 var addressInput = adForm.querySelector('#address');
-
 
 var offerParameters = {
   TITLES: [
@@ -117,8 +120,8 @@ var getAvatarUrl = function (index) {
 };
 
 var createAd = function (number) {
-  var locationX = getRandomNumber(0, 1200);
-  var locationY = getRandomNumber(130, 630);
+  var locationX = getRandomNumber(MIN_X, MAX_X);
+  var locationY = getRandomNumber(MIN_Y, MAX_Y);
 
   var ad = {
     author: {
@@ -260,19 +263,14 @@ window.onload = function () {
   getUnactivateCondition();
 };
 
-mapPinMain.addEventListener('mouseup', function () {
-  pinsContainer.appendChild(fragment);
-  getActiveCondition();
-});
-
 /* Устанавливаем обработчик клика на контейнер с пинами */
 pinsContainer.addEventListener('click', function (evt) {
   var target = evt.target; /* Записываем в переменную target элемент, на который кликнули*/
 
   while (target !== pinsContainer) { /* Условие выполнения дальнейшего тела цикла while - если попадаем внутрь контейнера pinsContainer, то все ок - код выполняется, если нет - то внутрь while даже не зайдем */
     if (target.tagName === 'BUTTON') { /* Проверяем попали кликом на элемент с тегом button (как раз наш пин) или нет. Если попали - то выполняем код тела цикла, если нет - переопределяем target (поднимаемся до родителя). Если дошли до контейнера pinsContainer, то элемент, нужный нам - не найдем, и цикл while останавливается */
-      var newCard = createCard(adsList[target.dataset.id]);
-      map.insertBefore(newCard, mapFilters);
+      var moveCard = createCard(adsList[target.dataset.id]);
+      map.insertBefore(moveCard, mapFilters);
 
       var cardsAmount = document.querySelectorAll('.map__card');
 
@@ -285,15 +283,6 @@ pinsContainer.addEventListener('click', function (evt) {
     target = target.parentNode;
   }
 });
-
-var setAddress = function () {
-  var locationX = Math.round(parseInt(mapPinMain.style.top, 10) + mapPinMain.offsetWidth / 2);
-  var locationY = Math.round(parseInt(mapPinMain.style.left, 10) + mapPinMain.offsetHeight / 2);
-
-  addressInput.value = locationX + ', ' + locationY;
-};
-
-setAddress();
 
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
@@ -365,3 +354,79 @@ var onRoomsSelect = function () {
 var submitForm = adForm.querySelector('.ad-form__submit');
 
 submitForm.addEventListener('click', onRoomsSelect);
+
+// Module5-task1
+
+mapPinMain.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+  var dragged = false;
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    var moveX = mapPinMain.offsetLeft - shift.x;
+    var moveY = mapPinMain.offsetTop - shift.y;
+
+    if (moveX < MIN_X) {
+      moveX = MIN_X + 'px';
+    } else if (moveX > MAX_X) {
+      moveX = MAX_X + 'px';
+    } else {
+      moveX = moveX + 'px';
+    }
+    mapPinMain.style.left = moveX;
+
+    if (moveY < MIN_Y) {
+      moveY = MIN_Y + 'px';
+    } else if (moveY > MAX_Y) {
+      moveY = MAX_Y + 'px';
+    } else {
+      moveY = moveY + 'px';
+    }
+    mapPinMain.style.top = moveY;
+    addressInput.value = setAddress(mapPinMain);
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+
+    if (dragged) {
+      var onClickPreventDefault = function (evtDragged) {
+        evtDragged.preventDefault();
+        mapPinMain.removeEventListener('click', onClickPreventDefault);
+      };
+      mapPinMain.addEventListener('click', onClickPreventDefault);
+    }
+
+    pinsContainer.appendChild(fragment);
+    getActiveCondition();
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
+
+var setAddress = function (element) {
+  var locationX = Math.round(parseInt(element.style.top, 10) + element.offsetWidth / 2);
+  var locationY = Math.round(parseInt(element.style.left, 10) + element.offsetHeight / 2);
+
+  return locationX + ', ' + locationY;
+};
