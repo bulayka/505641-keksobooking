@@ -356,6 +356,9 @@ var submitForm = adForm.querySelector('.ad-form__submit');
 submitForm.addEventListener('click', onRoomsSelect);
 
 // Module5-task1
+var MAIN_PIN_WIDTH = mapPinMain.offsetWidth;
+var HALF = Math.round(MAIN_PIN_WIDTH / 2);
+var ARROWHEIGHT = 22;
 
 mapPinMain.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
@@ -382,19 +385,19 @@ mapPinMain.addEventListener('mousedown', function (evt) {
     var moveX = mapPinMain.offsetLeft - shift.x;
     var moveY = mapPinMain.offsetTop - shift.y;
 
-    if (moveX < MIN_X) {
-      moveX = MIN_X + 'px';
-    } else if (moveX > MAX_X) {
-      moveX = MAX_X + 'px';
+    if (moveX <= MIN_X - HALF) {
+      moveX = MIN_X - HALF + 'px';
+    } else if (moveX >= MAX_X - HALF) {
+      moveX = MAX_X - HALF + 'px';
     } else {
       moveX = moveX + 'px';
     }
     mapPinMain.style.left = moveX;
 
-    if (moveY < MIN_Y) {
-      moveY = MIN_Y + 'px';
-    } else if (moveY > MAX_Y) {
-      moveY = MAX_Y + 'px';
+    if (moveY <= MIN_Y - MAIN_PIN_WIDTH - ARROWHEIGHT) {
+      moveY = MIN_Y - MAIN_PIN_WIDTH - ARROWHEIGHT + 'px';
+    } else if (moveY >= MAX_Y - MAIN_PIN_WIDTH - ARROWHEIGHT) {
+      moveY = MAX_Y - MAIN_PIN_WIDTH - ARROWHEIGHT + 'px';
     } else {
       moveY = moveY + 'px';
     }
@@ -425,8 +428,8 @@ mapPinMain.addEventListener('mousedown', function (evt) {
 });
 
 var setAddress = function (element) {
-  var locationX = Math.round(parseInt(element.style.top, 10) + element.offsetWidth / 2);
-  var locationY = Math.round(parseInt(element.style.left, 10) + element.offsetHeight / 2);
+  var locationX = Math.round(parseInt(element.style.left, 10) + element.offsetWidth / 2);
+  var locationY = Math.round(parseInt(element.style.top, 10) + element.offsetHeight + ARROWHEIGHT);
 
   return locationX + ', ' + locationY;
 };
