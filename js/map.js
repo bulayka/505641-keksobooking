@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-
-
   var ESC_KEYCODE = 27;
   var map = document.querySelector('.map');
   var mapPinMain = document.querySelector('.map__pin--main');
@@ -57,7 +55,7 @@
     var target = evt.target;
     while (target !== pinsContainer) {
       if (target.tagName === 'BUTTON') {
-        var moveCard = window.card.createCard(window.data.adsList[target.dataset.id]);
+        var moveCard = window.card.createCard(adsList[target.dataset.id]);
         map.insertBefore(moveCard, mapFilters);
 
         var cardsAmount = document.querySelectorAll('.map__card');
