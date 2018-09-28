@@ -2,16 +2,18 @@
 
 (function () {
   var ESC_KEYCODE = 27;
-  var map = document.querySelector('.map');
+  // var map = document.querySelector('.map');
   var mapPinMain = document.querySelector('.map__pin--main');
   var pinsContainer = document.querySelector('.map__pins');
-  var mapFilters = map.querySelector('.map__filters-container');
+  var mapFilters = window.data.map.querySelector('.map__filters-container');
   var adForm = document.querySelector('.ad-form');
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var addressInput = adForm.querySelector('#address');
 
   window.map = {
-    adForm: adForm
+    adForm: adForm,
+    closePopup: closePopup,
+    onPopupEscPress: onPopupEscPress
   };
 
   var getAdsList = function () {
@@ -29,7 +31,7 @@
   }
 
   var getActiveCondition = function () {
-    map.classList.remove('map--faded');
+    window.data.map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
 
     for (var j = 0; j < adFormFieldsets.length; j++) {
@@ -38,7 +40,7 @@
   };
 
   var getUnactivateCondition = function () {
-    map.classList.add('map--faded');
+    window.data.map.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
 
     for (var j = 0; j < adFormFieldsets.length; j++) {
@@ -56,7 +58,7 @@
     while (target !== pinsContainer) {
       if (target.tagName === 'BUTTON') {
         var moveCard = window.card.createCard(adsList[target.dataset.id]);
-        map.insertBefore(moveCard, mapFilters);
+        window.data.map.insertBefore(moveCard, mapFilters);
 
         var cardsAmount = document.querySelectorAll('.map__card');
 
@@ -81,11 +83,6 @@
     mapCard.remove();
 
     document.removeEventListener('keydown', onPopupEscPress);
-  };
-
-  window.map = {
-    closePopup: closePopup,
-    onPopupEscPress: onPopupEscPress
   };
 
   var MAIN_PIN_WIDTH = mapPinMain.offsetWidth;

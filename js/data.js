@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var map = document.querySelector('.map');
+
   var OFFERS_COUNT = 8;
   var MIN_X = 0;
   var MAX_X = 1200;
@@ -17,6 +19,7 @@
     CARD_PHOTOS: CARD_PHOTOS,
     offerParameters: offerParameters,
     getRandomElement: getRandomElement,
+    map: map
   };
 
   var offerParameters = {
