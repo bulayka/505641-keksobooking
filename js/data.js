@@ -9,19 +9,6 @@
   var MIN_Y = 130;
   var MAX_Y = 630;
 
-  window.data = {
-    MIN_X: MIN_X,
-    MAX_X: MAX_X,
-    MIN_Y: MIN_Y,
-    MAX_Y: MAX_Y,
-    DICTIONARY: DICTIONARY,
-    OFFERS_COUNT: OFFERS_COUNT,
-    CARD_PHOTOS: CARD_PHOTOS,
-    offerParameters: offerParameters,
-    getRandomElement: getRandomElement,
-    map: map
-  };
-
   var offerParameters = {
     TITLES: [
       'Большая уютная квартира',
@@ -152,5 +139,18 @@
     };
 
     return ad;
+  };
+
+  window.data = {
+    MIN_X: MIN_X,
+    MAX_X: MAX_X,
+    MIN_Y: MIN_Y,
+    MAX_Y: MAX_Y,
+    DICTIONARY: DICTIONARY,
+    OFFERS_COUNT: OFFERS_COUNT,
+    CARD_PHOTOS: CARD_PHOTOS,
+    offerParameters: offerParameters,
+    getRandomElement: getRandomElement,
+    map: map
   };
 })();

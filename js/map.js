@@ -2,19 +2,12 @@
 
 (function () {
   var ESC_KEYCODE = 27;
-  // var map = document.querySelector('.map');
   var mapPinMain = document.querySelector('.map__pin--main');
   var pinsContainer = document.querySelector('.map__pins');
   var mapFilters = window.data.map.querySelector('.map__filters-container');
   var adForm = document.querySelector('.ad-form');
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var addressInput = adForm.querySelector('#address');
-
-  window.map = {
-    adForm: adForm,
-    closePopup: closePopup,
-    onPopupEscPress: onPopupEscPress
-  };
 
   var getAdsList = function () {
     var ads = [];
@@ -161,5 +154,11 @@
     var locationY = Math.round(parseInt(element.style.top, 10) + element.offsetHeight + ARROWHEIGHT);
 
     return locationX + ', ' + locationY;
+  };
+
+  window.map = {
+    adForm: adForm,
+    closePopup: closePopup,
+    onPopupEscPress: onPopupEscPress
   };
 })();
