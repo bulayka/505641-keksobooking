@@ -3,7 +3,6 @@
 (function () {
   var map = document.querySelector('.map');
 
-  var OFFERS_COUNT = 8;
   var MIN_X = 0;
   var MAX_X = 1200;
   var MIN_Y = 130;
@@ -57,60 +56,6 @@
     MAX_GUESTS: 10
   };
 
-  var DICTIONARY = {
-    'palace': 'Дворец',
-    'flat': 'Квартира',
-    'house': 'Дом',
-    'bungalo': 'Бунгало'
-  };
-
-  var CARD_PHOTOS = {
-    width: 45,
-    height: 40,
-    alt: 'Фотография жилья'
-  };
-
-  // var window.getRandomNumber = function (min, max) {
-  //   return Math.floor(min + Math.random() * (max + 1 - min));
-  // };
-  //
-  // var getRandomElement = function (array) {
-  //   var index = window.getRandomNumber(0, array.length - 1);
-  //   return array[index];
-  // };
-  //
-  // var getRandomArrayItem = function (array) {
-  //   return window.getRandomNumber(0, array.length - 1);
-  // };
-  //
-  // var getRandomArrayList = function (array, length) {
-  //   var list = [];
-  //
-  //   for (var i = 0; i < length; i++) {
-  //     var item = array[getRandomArrayItem(array)];
-  //     if (list.indexOf(item) === -1) {
-  //       list.push(item);
-  //     }
-  //   }
-  //
-  //   return list;
-  // };
-  //
-  // function shuffleArray(array) {
-  //   for (var i = array.length - 1; i > 0; i--) {
-  //     var j = Math.floor(Math.random() * (i + 1));
-  //     var temp = array[i];
-  //     array[i] = array[j];
-  //     array[j] = temp;
-  //   }
-  //
-  //   return array;
-  // }
-  //
-  // var getAvatarUrl = function (index) {
-  //   return 'img/avatars/user0' + index + '.png';
-  // };
-  //
   window.createAd = function (number) {
     var locationX = window.getRandomNumber(MIN_X, MAX_X);
     var locationY = window.getRandomNumber(MIN_Y, MAX_Y);
@@ -146,9 +91,6 @@
     MAX_X: MAX_X,
     MIN_Y: MIN_Y,
     MAX_Y: MAX_Y,
-    DICTIONARY: DICTIONARY,
-    OFFERS_COUNT: OFFERS_COUNT,
-    CARD_PHOTOS: CARD_PHOTOS,
     offerParameters: offerParameters,
     map: map
   };

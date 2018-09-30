@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var OFFERS_COUNT = 8;
   var ESC_KEYCODE = 27;
   var mapPinMain = document.querySelector('.map__pin--main');
   var pinsContainer = document.querySelector('.map__pins');
@@ -11,15 +12,15 @@
 
   var getAdsList = function () {
     var ads = [];
-    for (var i = 1; i <= window.data.OFFERS_COUNT; i++) {
+    for (var i = 1; i <= OFFERS_COUNT; i++) {
       ads.push(window.createAd(i));
     }
     return ads;
   };
 
   var fragment = document.createDocumentFragment();
-  var adsList = getAdsList(window.data.OFFERS_COUNT);
-  for (var i = 0; i < window.data.OFFERS_COUNT; i++) {
+  var adsList = getAdsList(OFFERS_COUNT);
+  for (var i = 0; i < OFFERS_COUNT; i++) {
     fragment.appendChild(window.createPin(adsList[i], i));
   }
 
