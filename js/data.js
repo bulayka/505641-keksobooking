@@ -70,67 +70,67 @@
     alt: 'Фотография жилья'
   };
 
-  var getRandomNumber = function (min, max) {
-    return Math.floor(min + Math.random() * (max + 1 - min));
-  };
-
-  var getRandomElement = function (array) {
-    var index = getRandomNumber(0, array.length - 1);
-    return array[index];
-  };
-
-  var getRandomArrayItem = function (array) {
-    return getRandomNumber(0, array.length - 1);
-  };
-
-  var getRandomArrayList = function (array, length) {
-    var list = [];
-
-    for (var i = 0; i < length; i++) {
-      var item = array[getRandomArrayItem(array)];
-      if (list.indexOf(item) === -1) {
-        list.push(item);
-      }
-    }
-
-    return list;
-  };
-
-  function shuffleArray(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
-    }
-
-    return array;
-  }
-
-  var getAvatarUrl = function (index) {
-    return 'img/avatars/user0' + index + '.png';
-  };
-
+  // var window.getRandomNumber = function (min, max) {
+  //   return Math.floor(min + Math.random() * (max + 1 - min));
+  // };
+  //
+  // var getRandomElement = function (array) {
+  //   var index = window.getRandomNumber(0, array.length - 1);
+  //   return array[index];
+  // };
+  //
+  // var getRandomArrayItem = function (array) {
+  //   return window.getRandomNumber(0, array.length - 1);
+  // };
+  //
+  // var getRandomArrayList = function (array, length) {
+  //   var list = [];
+  //
+  //   for (var i = 0; i < length; i++) {
+  //     var item = array[getRandomArrayItem(array)];
+  //     if (list.indexOf(item) === -1) {
+  //       list.push(item);
+  //     }
+  //   }
+  //
+  //   return list;
+  // };
+  //
+  // function shuffleArray(array) {
+  //   for (var i = array.length - 1; i > 0; i--) {
+  //     var j = Math.floor(Math.random() * (i + 1));
+  //     var temp = array[i];
+  //     array[i] = array[j];
+  //     array[j] = temp;
+  //   }
+  //
+  //   return array;
+  // }
+  //
+  // var getAvatarUrl = function (index) {
+  //   return 'img/avatars/user0' + index + '.png';
+  // };
+  //
   window.createAd = function (number) {
-    var locationX = getRandomNumber(MIN_X, MAX_X);
-    var locationY = getRandomNumber(MIN_Y, MAX_Y);
+    var locationX = window.getRandomNumber(MIN_X, MAX_X);
+    var locationY = window.getRandomNumber(MIN_Y, MAX_Y);
 
     var ad = {
       author: {
-        avatar: getAvatarUrl(number)
+        avatar: window.getAvatarUrl(number)
       },
       offer: {
         title: offerParameters.TITLES[number - 1],
         address: locationX + ', ' + locationY,
-        price: getRandomNumber(offerParameters.MIN_PRICE, offerParameters.MAX_PRICE),
-        type: getRandomElement(offerParameters.TYPES),
-        rooms: getRandomNumber(offerParameters.MIN_ROOMS, offerParameters.MAX_ROOMS),
-        guests: getRandomNumber(offerParameters.MIN_GUESTS, offerParameters.MAX_GUESTS),
-        checkin: getRandomElement(offerParameters.CHECKIN_TIMES),
-        checkout: getRandomElement(offerParameters.CHECKOUT_TIMES),
-        features: getRandomArrayList(offerParameters.FEATURES, getRandomNumber(1, offerParameters.FEATURES.length)),
+        price: window.getRandomNumber(offerParameters.MIN_PRICE, offerParameters.MAX_PRICE),
+        type: window.getRandomElement(offerParameters.TYPES),
+        rooms: window.getRandomNumber(offerParameters.MIN_ROOMS, offerParameters.MAX_ROOMS),
+        guests: window.getRandomNumber(offerParameters.MIN_GUESTS, offerParameters.MAX_GUESTS),
+        checkin: window.getRandomElement(offerParameters.CHECKIN_TIMES),
+        checkout: window.getRandomElement(offerParameters.CHECKOUT_TIMES),
+        features: window.getRandomArrayList(offerParameters.FEATURES, window.getRandomNumber(1, offerParameters.FEATURES.length)),
         description: '',
-        photos: shuffleArray(offerParameters.PHOTOS.slice())
+        photos: window.shuffleArray(offerParameters.PHOTOS.slice())
       },
       location: {
         x: locationX,
@@ -150,7 +150,6 @@
     OFFERS_COUNT: OFFERS_COUNT,
     CARD_PHOTOS: CARD_PHOTOS,
     offerParameters: offerParameters,
-    getRandomElement: getRandomElement,
     map: map
   };
 })();
