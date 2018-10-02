@@ -48,6 +48,8 @@
     for (var j = 0; j < adFormFieldsets.length; j++) {
       adFormFieldsets[j].disabled = true;
     }
+
+    addressInput.value = setAddress(mapPinMain);
   };
 
   window.onload = function () {
