@@ -18,11 +18,19 @@
     return ads;
   };
 
+  // var fragment = document.createDocumentFragment();
+  // var adsList = getAdsList(OFFERS_COUNT);
+  // for (var i = 0; i < OFFERS_COUNT; i++) {
+  //   fragment.appendChild(window.createPin(adsList[i], i));
+  // }
+
   var fragment = document.createDocumentFragment();
   var adsList = getAdsList(OFFERS_COUNT);
-  for (var i = 0; i < OFFERS_COUNT; i++) {
-    fragment.appendChild(window.createPin(adsList[i], i));
-  }
+  window.getData(function (dataCount) {
+    for (var i = 0; i < dataCount.length; i++) {
+      fragment.appendChild(window.createPin(adsList[i], i));
+    }
+  });
 
   var getActiveCondition = function () {
     window.data.map.classList.remove('map--faded');
@@ -33,7 +41,7 @@
     }
   };
 
-  var getUnactivateCondition = function () {
+  window.getUnactivateCondition = function () {
     window.data.map.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
 
@@ -43,7 +51,7 @@
   };
 
   window.onload = function () {
-    getUnactivateCondition();
+    window.getUnactivateCondition();
   };
 
   /* Устанавливаем обработчик клика на контейнер с пинами */
