@@ -18,17 +18,11 @@
     return ads;
   };
 
-  // var fragment = document.createDocumentFragment();
-  // var adsList = getAdsList(OFFERS_COUNT);
-  // for (var i = 0; i < OFFERS_COUNT; i++) {
-  //   fragment.appendChild(window.createPin(adsList[i], i));
-  // }
-
   var fragment = document.createDocumentFragment();
   var adsList = getAdsList(OFFERS_COUNT);
-  window.getData(function (dataCount) {
-    for (var i = 0; i < dataCount.length; i++) {
-      fragment.appendChild(window.createPin(adsList[i], i));
+  window.getData(function (serverData) {
+    for (var i = 0; i < serverData.length; i++) {
+      fragment.appendChild(window.createPin(serverData[i], i));
     }
   });
 
@@ -50,6 +44,11 @@
     }
 
     addressInput.value = setAddress(mapPinMain);
+
+    var pinsList = document.querySelectorAll('.map__pin');
+    for (var i = 1; i < pinsList.length; i++) {
+      pinsContainer.removeChild(pinsList[i]);
+    }
   };
 
   window.onload = function () {
@@ -168,6 +167,7 @@
   };
 
   window.map = {
+    ESC_KEYCODE: ESC_KEYCODE,
     adForm: adForm,
     closePopup: closePopup,
     onPopupEscPress: onPopupEscPress

@@ -50,10 +50,9 @@
   submitForm.addEventListener('click', onRoomsSelect);
 
   window.map.adForm.addEventListener('submit', function (evt) {
-    window.sendData(new FormData(window.map.adForm), function () {
-      window.map.adForm.reset();
-      window.getUnactivateCondition();
-    });
     evt.preventDefault();
+    window.sendData(new FormData(window.map.adForm), window.messageSuccess, window.messageError);
+    window.map.adForm.reset();
+    window.getUnactivateCondition();
   });
 })();
