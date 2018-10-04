@@ -20,6 +20,7 @@
 
   var fragment = document.createDocumentFragment();
   var adsList = getAdsList(OFFERS_COUNT);
+
   window.getData(function (serverData) {
     for (var i = 0; i < serverData.length; i++) {
       fragment.appendChild(window.createPin(serverData[i], i));
@@ -33,6 +34,12 @@
     for (var j = 0; j < adFormFieldsets.length; j++) {
       adFormFieldsets[j].disabled = false;
     }
+
+    window.getData(function (serverData) {
+      for (var i = 0; i < serverData.length; i++) {
+        fragment.appendChild(window.createPin(serverData[i], i));
+      }
+    });
   };
 
   window.getUnactivateCondition = function () {
