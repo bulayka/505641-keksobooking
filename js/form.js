@@ -52,8 +52,12 @@
   window.map.adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.sendData(new FormData(window.map.adForm), window.messageSuccess, window.messageError);
-    window.map.adForm.reset();
     window.getUnactivateCondition();
-    window.closePopup();
+  });
+
+  var resetForm = document.querySelector('.ad-form__reset');
+
+  resetForm.addEventListener('click', function () {
+    window.getUnactivateCondition();
   });
 })();

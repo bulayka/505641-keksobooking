@@ -56,6 +56,9 @@
     for (var i = 1; i < pinsList.length; i++) {
       pinsContainer.removeChild(pinsList[i]);
     }
+
+    window.closePopup();
+    window.map.adForm.reset();
   };
 
   window.onload = function () {
