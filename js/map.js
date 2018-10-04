@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var OFFERS_COUNT = 8;
   var ESC_KEYCODE = 27;
   var mapPinMain = document.querySelector('.map__pin--main');
   var pinsContainer = document.querySelector('.map__pins');
@@ -10,19 +9,15 @@
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var addressInput = adForm.querySelector('#address');
 
-  var getAdsList = function () {
-    var ads = [];
-    for (var i = 1; i <= OFFERS_COUNT; i++) {
-      ads.push(window.createAd(i));
-    }
-    return ads;
-  };
-
   var fragment = document.createDocumentFragment();
-  var adsList = getAdsList(OFFERS_COUNT);
-  for (var i = 0; i < OFFERS_COUNT; i++) {
-    fragment.appendChild(window.createPin(adsList[i], i));
-  }
+  var adsList = [];
+
+  window.getData(function (serverData) {
+    adsList = serverData.slice();
+    for (var i = 0; i < serverData.length; i++) {
+      fragment.appendChild(window.createPin(serverData[i], i));
+    }
+  });
 
   var getActiveCondition = function () {
     window.data.map.classList.remove('map--faded');
@@ -31,19 +26,35 @@
     for (var j = 0; j < adFormFieldsets.length; j++) {
       adFormFieldsets[j].disabled = false;
     }
+
+    window.getData(function (serverData) {
+      for (var i = 0; i < serverData.length; i++) {
+        fragment.appendChild(window.createPin(serverData[i], i));
+      }
+    });
   };
 
-  var getUnactivateCondition = function () {
+  window.getUnactivateCondition = function () {
     window.data.map.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
 
     for (var j = 0; j < adFormFieldsets.length; j++) {
       adFormFieldsets[j].disabled = true;
     }
+
+    addressInput.value = setAddress(mapPinMain);
+
+    var pinsList = document.querySelectorAll('.map__pin');
+    for (var i = 1; i < pinsList.length; i++) {
+      pinsContainer.removeChild(pinsList[i]);
+    }
+
+    window.closePopup();
+    window.map.adForm.reset();
   };
 
   window.onload = function () {
-    getUnactivateCondition();
+    window.getUnactivateCondition();
   };
 
   /* Устанавливаем обработчик клика на контейнер с пинами */
@@ -57,7 +68,7 @@
         var cardsAmount = document.querySelectorAll('.map__card');
 
         if (cardsAmount.length !== 1) {
-          closePopup();
+          window.closePopup();
         }
         document.addEventListener('keydown', onPopupEscPress);
         return;
@@ -68,11 +79,11 @@
 
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
-      closePopup();
+      window.closePopup();
     }
   };
 
-  var closePopup = function () {
+  window.closePopup = function () {
     var mapCard = document.querySelector('.map__card');
     mapCard.remove();
 
@@ -158,8 +169,8 @@
   };
 
   window.map = {
+    ESC_KEYCODE: ESC_KEYCODE,
     adForm: adForm,
-    closePopup: closePopup,
     onPopupEscPress: onPopupEscPress
   };
 })();

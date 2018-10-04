@@ -45,7 +45,19 @@
     }
   };
 
-  var submitForm = window.map.adForm.querySelector('.ad-form__submit');
+  var submitForm = window.map.adForm;
 
   submitForm.addEventListener('click', onRoomsSelect);
+
+  window.map.adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.sendData(new FormData(window.map.adForm), window.messageSuccess, window.messageError);
+    window.getUnactivateCondition();
+  });
+
+  var resetForm = document.querySelector('.ad-form__reset');
+
+  resetForm.addEventListener('click', function () {
+    window.getUnactivateCondition();
+  });
 })();
