@@ -72,7 +72,7 @@
     var popupCloseButton = card.querySelector('.popup__close');
 
     popupCloseButton.addEventListener('click', function () {
-      window.map.closePopup();
+      window.closePopup();
     });
     document.addEventListener('keydown', window.map.onPopupEscPress);
 

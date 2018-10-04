@@ -73,7 +73,7 @@
         var cardsAmount = document.querySelectorAll('.map__card');
 
         if (cardsAmount.length !== 1) {
-          closePopup();
+          window.closePopup();
         }
         document.addEventListener('keydown', onPopupEscPress);
         return;
@@ -84,11 +84,11 @@
 
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
-      closePopup();
+      window.closePopup();
     }
   };
 
-  var closePopup = function () {
+  window.closePopup = function () {
     var mapCard = document.querySelector('.map__card');
     mapCard.remove();
 
@@ -176,7 +176,6 @@
   window.map = {
     ESC_KEYCODE: ESC_KEYCODE,
     adForm: adForm,
-    closePopup: closePopup,
     onPopupEscPress: onPopupEscPress
   };
 })();

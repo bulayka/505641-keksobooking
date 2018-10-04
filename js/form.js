@@ -54,5 +54,6 @@
     window.sendData(new FormData(window.map.adForm), window.messageSuccess, window.messageError);
     window.map.adForm.reset();
     window.getUnactivateCondition();
+    window.closePopup();
   });
 })();
