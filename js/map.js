@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var OFFERS_COUNT = 8;
   var ESC_KEYCODE = 27;
   var mapPinMain = document.querySelector('.map__pin--main');
   var pinsContainer = document.querySelector('.map__pins');
@@ -10,18 +9,11 @@
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var addressInput = adForm.querySelector('#address');
 
-  var getAdsList = function () {
-    var ads = [];
-    for (var i = 1; i <= OFFERS_COUNT; i++) {
-      ads.push(window.createAd(i));
-    }
-    return ads;
-  };
-
   var fragment = document.createDocumentFragment();
-  var adsList = getAdsList(OFFERS_COUNT);
+  var adsList = [];
 
   window.getData(function (serverData) {
+    adsList = serverData.slice();
     for (var i = 0; i < serverData.length; i++) {
       fragment.appendChild(window.createPin(serverData[i], i));
     }
