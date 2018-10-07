@@ -18,4 +18,21 @@
 
     return pin;
   };
+
+  window.deletePins = function () {
+    var pinsList = document.querySelectorAll('.map__pin');
+    for (var i = 1; i < pinsList.length; i++) {
+      window.map.pinsContainer.removeChild(pinsList[i]);
+    }
+  };
+
+  window.removeSimilarPins = function () {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    if (pins) {
+      pins.forEach(function (item) {
+        item.remove();
+      });
+    }
+  };
 })();

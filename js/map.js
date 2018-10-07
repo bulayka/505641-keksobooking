@@ -28,6 +28,7 @@
     }
 
     window.getData(function (serverData) {
+      adsList = serverData.slice();
       for (var i = 0; i < serverData.length; i++) {
         fragment.appendChild(window.createPin(serverData[i], i));
       }
@@ -43,12 +44,7 @@
     }
 
     addressInput.value = setAddress(mapPinMain);
-
-    var pinsList = document.querySelectorAll('.map__pin');
-    for (var i = 1; i < pinsList.length; i++) {
-      pinsContainer.removeChild(pinsList[i]);
-    }
-
+    window.deletePins();
     window.closePopup();
     window.map.adForm.reset();
   };
@@ -171,6 +167,7 @@
   window.map = {
     ESC_KEYCODE: ESC_KEYCODE,
     adForm: adForm,
-    onPopupEscPress: onPopupEscPress
+    onPopupEscPress: onPopupEscPress,
+    pinsContainer: pinsContainer
   };
 })();

@@ -41,4 +41,12 @@
   window.getAvatarUrl = function (index) {
     return 'img/avatars/user0' + index + '.png';
   };
+
+  window.resetFeatures = function (features) {
+    features.forEach(function (feature) {
+      if (feature.checked) {
+        feature.checked = false;
+      }
+    });
+  };
 })();

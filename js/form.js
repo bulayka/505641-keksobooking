@@ -3,6 +3,7 @@
 (function () {
   var houseType = document.querySelector('#type');
   var inputPrice = window.map.adForm.querySelector('#price');
+  var featuresInputs = window.map.adForm.querySelectorAll('[name = features]');
   var OPTION_VALUE = {
     bungalo: 0,
     flat: 1000,
@@ -56,8 +57,8 @@
   });
 
   var resetForm = document.querySelector('.ad-form__reset');
-
   resetForm.addEventListener('click', function () {
     window.getUnactivateCondition();
+    window.util.resetCheckboxes(featuresInputs);
   });
 })();
