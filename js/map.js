@@ -43,6 +43,7 @@
       adFormFieldsets[j].disabled = true;
     }
 
+    mainPinToStartPosition();
     addressInput.value = setAddress(mapPinMain);
     window.deletePins();
     window.closePopup();
@@ -87,8 +88,15 @@
   };
 
   var MAIN_PIN_WIDTH = mapPinMain.offsetWidth;
+  var INIT_X = 570;
+  var INIT_Y = 375;
   var HALF = Math.round(MAIN_PIN_WIDTH / 2);
   var ARROWHEIGHT = 22;
+
+  var mainPinToStartPosition = function () {
+    mapPinMain.style.left = INIT_X + 'px';
+    mapPinMain.style.top = INIT_Y + 'px';
+  };
 
   mapPinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
