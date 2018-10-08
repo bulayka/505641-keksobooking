@@ -6,11 +6,11 @@
   var filterValue = {};
 
   var defaultValue = {
-    type: 'any',
-    price: 'any',
-    rooms: 'any',
-    guests: 'any',
-    features: []
+    'type': 'any',
+    'price': 'any',
+    'rooms': 'any',
+    'guests': 'any',
+    'features': []
   };
 
   var roomPrice = {
@@ -48,22 +48,6 @@
     Array.prototype.forEach.call(formElements, function (item) {
       item.disabled = true;
     });
-  };
-
-  var getTypeValue = function () {
-    return type.value;
-  };
-
-  var getPriceValue = function () {
-    return price.value;
-  };
-
-  var getRoomsValue = function () {
-    return rooms.value;
-  };
-
-  var getGuestsValue = function () {
-    return guests.value;
   };
 
   var getChosenFeatures = function () {
@@ -112,14 +96,6 @@
     features: featuresCompare
   };
 
-  var updateFilterValues = function () {
-    filterValue.type = getTypeValue();
-    filterValue.price = getPriceValue();
-    filterValue.rooms = getRoomsValue();
-    filterValue.guests = getGuestsValue();
-    filterValue.features = getChosenFeatures();
-  };
-
   var getCompareResult = function (functions, ad, featuresValue) {
     var compareResult = true;
     for (var i = 0; i < functions.length; i++) {
@@ -135,7 +111,11 @@
 
   var formChangeHandler = function () {
     var compares = [];
-    updateFilterValues();
+    filterValue.type = type.value;
+    filterValue.price = price.value;
+    filterValue.rooms = rooms.value;
+    filterValue.guests = guests.value;
+    filterValue.features = getChosenFeatures();
     filteredAds = window.getData();
     for (var key in filterValue) {
       if (filterValue[key].toString() !== defaultValue[key].toString()) {
