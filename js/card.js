@@ -28,18 +28,18 @@
     return featuresItems;
   };
 
-  var getCardImages = function () {
+  var getCardImages = function (photos) {
     var imageList = [];
 
-    for (var i = 0; i < window.data.offerParameters.PHOTOS.length; i++) {
+    photos.forEach(function (item) {
       var imageItem = document.createElement('img');
-      imageItem.src = window.data.offerParameters.PHOTOS[i];
+      imageItem.src = item;
       imageItem.classList.add('popup__photo');
       imageItem.width = CARD_PHOTOS.width;
       imageItem.height = CARD_PHOTOS.height;
       imageItem.alt = 'Фотография жилья';
       imageList.push(imageItem);
-    }
+    });
 
     return imageList;
   };
