@@ -30,22 +30,22 @@
 
   var filteredAds = [];
 
-  var form = document.querySelector('.map__filters');
-  var formElements = form.children;
-  var type = form.querySelector('#housing-type');
-  var price = form.querySelector('#housing-price');
-  var rooms = form.querySelector('#housing-rooms');
-  var guests = form.querySelector('#housing-guests');
-  var features = form.querySelectorAll('#housing-features input');
+  var filterForm = document.querySelector('.map__filters');
+  var filterFormElements = filterForm.children;
+  var type = filterForm.querySelector('#housing-type');
+  var price = filterForm.querySelector('#housing-price');
+  var rooms = filterForm.querySelector('#housing-rooms');
+  var guests = filterForm.querySelector('#housing-guests');
+  var features = filterForm.querySelectorAll('#housing-features input');
 
-  var enable = function () {
-    Array.prototype.forEach.call(formElements, function (item) {
+  var enableFilterForm = function () {
+    Array.prototype.forEach.call(filterFormElements, function (item) {
       item.disabled = false;
     });
   };
 
-  var disable = function () {
-    Array.prototype.forEach.call(formElements, function (item) {
+  var disableFilterForm = function () {
+    Array.prototype.forEach.call(filterFormElements, function (item) {
       item.disabled = true;
     });
   };
@@ -96,7 +96,7 @@
     features: featuresCompare
   };
 
-  var onFormChange = function () {
+  var onFilterFormChange = function () {
     var compares = [];
     filterValue.type = type.value;
     filterValue.price = price.value;
@@ -104,10 +104,10 @@
     filterValue.guests = guests.value;
     filterValue.features = getChosenFeatures();
 
-    // filteredAds = window.getData(function (serverData) {
-    //   adsList = serverData.slice();
+    // window.getData(function (serverData) {
+    //   filteredAds = serverData.slice();
     //   for (var i = 0; i < serverData.length; i++) {
-    //     fragment.appendChild(window.createPin(serverData[i], i));
+    //     window.map.fragment.appendChild(window.createPin(serverData[i], i));
     //   }
     // }, window.messageError);
 
@@ -122,15 +122,16 @@
     if (filteredAds.length > COUNT_CARDS) {
       filteredAds.length = COUNT_CARDS;
     }
+
     window.closePopup();
     window.removeSimilarPins();
   };
 
-  form.addEventListener('change', window.debounce(onFormChange));
+  filterForm.addEventListener('change', window.debounce(onFilterFormChange));
 
   window.filter = {
-    enable: enable,
-    disable: disable,
+    enableFilterForm: enableFilterForm,
+    disableFilterForm: disableFilterForm,
     resetFilters: resetFilters
   };
 

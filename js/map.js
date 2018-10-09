@@ -82,9 +82,9 @@
 
   window.closePopup = function () {
     var mapCard = document.querySelector('.map__card');
-    if (mapCard) {
+    // if (mapCard) {
       mapCard.remove();
-    }
+    // }
 
     document.removeEventListener('keydown', onPopupEscPress);
   };
@@ -178,6 +178,8 @@
     ESC_KEYCODE: ESC_KEYCODE,
     adForm: adForm,
     onPopupEscPress: onPopupEscPress,
-    pinsContainer: pinsContainer
+    pinsContainer: pinsContainer,
+    fragment: fragment,
+    adsList: adsList
   };
 })();
