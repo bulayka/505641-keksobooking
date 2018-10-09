@@ -28,7 +28,7 @@
     }
   };
 
-  var filteredAds;
+  var filteredAds = [];
 
   var form = document.querySelector('.map__filters');
   var formElements = form.children;
@@ -60,7 +60,7 @@
     return chosenFeatures;
   };
 
-  var reset = function () {
+  var resetFilters = function () {
     type.value = defaultValue.type;
     price.value = defaultValue.price;
     rooms.value = defaultValue.rooms;
@@ -96,51 +96,42 @@
     features: featuresCompare
   };
 
-  var getCompareResult = function (functions, ad, featuresValue) {
-    var compareResult = true;
-    for (var i = 0; i < functions.length; i++) {
-      if (compareResult) {
-        var func = functions[i];
-        compareResult &= (func.name === 'featuresCompare') ? func(ad, featuresValue) : func(ad);
-      } else {
-        return compareResult;
-      }
-    }
-    return compareResult;
-  };
-
-  var formChangeHandler = function () {
+  var onFormChange = function () {
     var compares = [];
     filterValue.type = type.value;
     filterValue.price = price.value;
     filterValue.rooms = rooms.value;
     filterValue.guests = guests.value;
     filterValue.features = getChosenFeatures();
-    filteredAds = window.getData();
+
+    // filteredAds = window.getData(function (serverData) {
+    //   adsList = serverData.slice();
+    //   for (var i = 0; i < serverData.length; i++) {
+    //     fragment.appendChild(window.createPin(serverData[i], i));
+    //   }
+    // }, window.messageError);
+
     for (var key in filterValue) {
       if (filterValue[key].toString() !== defaultValue[key].toString()) {
         compares.push(TypeToCompareFunction[key]);
       }
     }
 
-    filteredAds = filteredAds.filter(function (listItem) {
-      return (getCompareResult(compares, listItem, filterValue.features));
-    });
+    var result = filteredAds.filter(typeCompare).filter(priceCompare).filter(roomsCompare).filter(guestsCompare);
 
     if (filteredAds.length > COUNT_CARDS) {
       filteredAds.length = COUNT_CARDS;
     }
     window.closePopup();
-    window.map.removeSimilarPins();
-
+    window.removeSimilarPins();
   };
 
-  form.addEventListener('change', window.debounce(formChangeHandler));
+  form.addEventListener('change', window.debounce(onFormChange));
 
   window.filter = {
     enable: enable,
     disable: disable,
-    reset: reset
+    resetFilters: resetFilters
   };
 
 })();

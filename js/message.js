@@ -15,7 +15,7 @@
     if (evt.keyCode === window.map.ESC_KEYCODE) {
       var error = mainContainer.querySelector('.error');
       mainContainer.removeChild(error);
-      mainContainer.removeEventListener('keydown', onMessageErrorClose);
+      document.removeEventListener('keydown', onMessageErrorClose);
     }
   }
 
@@ -40,6 +40,6 @@
     elemError.addEventListener('click', function () {
       mainContainer.removeChild(elemError);
     });
-    mainContainer.addEventListener('keydown', onMessageErrorClose);
+    document.addEventListener('keydown', onMessageErrorClose);
   };
 })();

@@ -14,6 +14,7 @@
   houseType.addEventListener('change', function (evt) {
     var currentValue = evt.target.value;
     inputPrice.min = OPTION_VALUE[currentValue];
+    inputPrice.placeholder = OPTION_VALUE[currentValue];
   });
 
   var timeIn = document.querySelector('#timein');

@@ -17,7 +17,7 @@
     for (var i = 0; i < serverData.length; i++) {
       fragment.appendChild(window.createPin(serverData[i], i));
     }
-  });
+  }, window.messageError);
 
   var getActiveCondition = function () {
     window.data.map.classList.remove('map--faded');
@@ -32,7 +32,7 @@
       for (var i = 0; i < serverData.length; i++) {
         fragment.appendChild(window.createPin(serverData[i], i));
       }
-    });
+    }, window.messageError);
   };
 
   window.getUnactivateCondition = function () {
@@ -82,7 +82,9 @@
 
   window.closePopup = function () {
     var mapCard = document.querySelector('.map__card');
-    mapCard.remove();
+    if (mapCard) {
+      mapCard.remove();
+    }
 
     document.removeEventListener('keydown', onPopupEscPress);
   };
