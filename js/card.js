@@ -21,6 +21,7 @@
 
     features.forEach(function (item) {
       var featuresItem = document.createElement('li');
+
       featuresItem.classList.add('popup__feature', 'popup__feature--' + item);
       featuresItems.push(featuresItem);
     });
@@ -33,6 +34,7 @@
 
     photos.forEach(function (item) {
       var imageItem = document.createElement('img');
+
       imageItem.src = item;
       imageItem.classList.add('popup__photo');
       imageItem.width = CARD_PHOTOS.width;
@@ -52,9 +54,9 @@
 
   var createCard = function (ad) {
     var card = cardTemplate.cloneNode(true);
-
     var cardFeatures = card.querySelector('.popup__features');
     var cardPhotos = card.querySelector('.popup__photos');
+    var popupCloseButton = card.querySelector('.popup__close');
 
     card.querySelector('.popup__title').textContent = ad.offer.title;
     card.querySelector('.popup__text--address').textContent = ad.offer.address;
@@ -69,11 +71,10 @@
     appendElements(getCardFeatures(ad.offer.features), cardFeatures);
     appendElements(getCardImages(ad.offer.photos), cardPhotos);
 
-    var popupCloseButton = card.querySelector('.popup__close');
-
     popupCloseButton.addEventListener('click', function () {
       window.closePopup();
     });
+
     document.addEventListener('keydown', window.map.onPopupEscPress);
 
     return card;

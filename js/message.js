@@ -7,7 +7,7 @@
     if (evt.keyCode === window.map.ESC_KEYCODE) {
       var success = mainContainer.querySelector('.success');
       mainContainer.removeChild(success);
-      mainContainer.removeEventListener('keydown', onMessageSuccessClose);
+      document.removeEventListener('keydown', onMessageSuccessClose);
     }
   }
 
@@ -28,7 +28,7 @@
       mainContainer.removeChild(elementSuccess);
     });
 
-    mainContainer.addEventListener('keydown', onMessageSuccessClose);
+    document.addEventListener('keydown', onMessageSuccessClose);
   };
 
   window.messageError = function (errMess) {
