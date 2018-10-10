@@ -49,4 +49,12 @@
       }
     });
   };
+
+  window.resetCheckboxes = function (checkboxes) {
+    checkboxes.forEach(function (checkbox) {
+      if (checkbox.checked) {
+        checkbox.checked = false;
+      }
+    });
+  };
 })();

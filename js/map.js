@@ -23,13 +23,6 @@
   var fragment = document.createDocumentFragment();
   var adsList = [];
 
-  window.getData(function (serverData) {
-    adsList = serverData.slice();
-    for (var i = 0; i < serverData.length; i++) {
-      fragment.appendChild(window.createPin(serverData[i], i));
-    }
-  }, window.messageError);
-
   var getActiveCondition = function () {
     map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
@@ -39,10 +32,12 @@
     }
 
     window.getData(function (serverData) {
-      adsList = serverData.slice();
+      window.map.adsList = serverData.slice();
       for (var i = 0; i < serverData.length; i++) {
         fragment.appendChild(window.createPin(serverData[i], i));
       }
+      pinsContainer.appendChild(fragment);
+
     }, window.messageError);
   };
 
@@ -55,10 +50,10 @@
     }
 
     mainPinToStartPosition();
+    window.map.adForm.reset();
     addressInput.value = setAddress(mapPinMain);
     window.deletePins();
     window.closePopup();
-    window.map.adForm.reset();
   };
 
   window.onload = function () {
@@ -70,7 +65,7 @@
     var target = evt.target;
     while (target !== pinsContainer) {
       if (target.tagName === 'BUTTON') {
-        var moveCard = window.card.createCard(adsList[target.dataset.id]);
+        var moveCard = window.card.createCard(window.map.adsList[target.dataset.id]);
         map.insertBefore(moveCard, mapFilters);
 
         var cardsAmount = document.querySelectorAll('.map__card');
@@ -93,9 +88,9 @@
 
   window.closePopup = function () {
     var mapCard = document.querySelector('.map__card');
-    // if (mapCard) {
+    if (mapCard) {
       mapCard.remove();
-    // }
+    }
 
     document.removeEventListener('keydown', onPopupEscPress);
   };
@@ -164,7 +159,6 @@
         mapPinMain.addEventListener('click', onClickPreventDefault);
       }
 
-      pinsContainer.appendChild(fragment);
       getActiveCondition();
     };
 

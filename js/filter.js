@@ -69,6 +69,9 @@
   };
 
   var typeCompare = function (ad) {
+    if (type.value === 'any') {
+      return true;
+    }
     return ad.offer.type === type.value;
   };
 
@@ -81,6 +84,9 @@
   };
 
   var priceCompare = function (ad) {
+    if (price.value === 'any') {
+      return true;
+    }
     return ad.offer.price >= roomPrice[price.value].MIN && ad.offer.price <= roomPrice[price.value].MAX;
   };
 
@@ -104,27 +110,27 @@
     filterValue.guests = guests.value;
     filterValue.features = getChosenFeatures();
 
-    // window.getData(function (serverData) {
-    //   filteredAds = serverData.slice();
-    //   for (var i = 0; i < serverData.length; i++) {
-    //     window.map.fragment.appendChild(window.createPin(serverData[i], i));
-    //   }
-    // }, window.messageError);
-
     for (var key in filterValue) {
       if (filterValue[key].toString() !== defaultValue[key].toString()) {
         compares.push(TypeToCompareFunction[key]);
       }
     }
 
-    var result = filteredAds.filter(typeCompare).filter(priceCompare).filter(roomsCompare).filter(guestsCompare);
-
-    if (filteredAds.length > COUNT_CARDS) {
-      filteredAds.length = COUNT_CARDS;
-    }
-
     window.closePopup();
     window.removeSimilarPins();
+    window.getData(function (serverData) {
+      filteredAds = serverData.slice();
+
+      var result = filteredAds.filter(typeCompare);
+
+      if (result.length > COUNT_CARDS) {
+        result.length = COUNT_CARDS;
+      }
+
+      for (var i = 0; i < serverData.length; i++) {
+        window.map.fragment.appendChild(window.createPin(result[i], i));
+      }
+    }, window.messageError);
   };
 
   filterForm.addEventListener('change', window.debounce(onFilterFormChange));
