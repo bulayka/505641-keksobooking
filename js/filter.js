@@ -123,13 +123,16 @@
 
       var result = filteredAds.filter(typeCompare);
 
+      var fragment = document.createDocumentFragment();
+
       if (result.length > COUNT_CARDS) {
         result.length = COUNT_CARDS;
       }
 
-      for (var i = 0; i < serverData.length; i++) {
-        window.map.fragment.appendChild(window.createPin(result[i], i));
+      for (var i = 0; i < result.length; i++) {
+        fragment.appendChild(window.createPin(result[i], i));
       }
+      window.map.pinsContainer.appendChild(fragment);
     }, window.messageError);
   };
 
