@@ -21,6 +21,7 @@
 
     features.forEach(function (item) {
       var featuresItem = document.createElement('li');
+
       featuresItem.classList.add('popup__feature', 'popup__feature--' + item);
       featuresItems.push(featuresItem);
     });
@@ -28,18 +29,19 @@
     return featuresItems;
   };
 
-  var getCardImages = function () {
+  var getCardImages = function (photos) {
     var imageList = [];
 
-    for (var i = 0; i < window.data.offerParameters.PHOTOS.length; i++) {
+    photos.forEach(function (item) {
       var imageItem = document.createElement('img');
-      imageItem.src = window.data.offerParameters.PHOTOS[i];
+
+      imageItem.src = item;
       imageItem.classList.add('popup__photo');
       imageItem.width = CARD_PHOTOS.width;
       imageItem.height = CARD_PHOTOS.height;
       imageItem.alt = 'Фотография жилья';
       imageList.push(imageItem);
-    }
+    });
 
     return imageList;
   };
@@ -52,14 +54,14 @@
 
   var createCard = function (ad) {
     var card = cardTemplate.cloneNode(true);
-
     var cardFeatures = card.querySelector('.popup__features');
     var cardPhotos = card.querySelector('.popup__photos');
+    var popupCloseButton = card.querySelector('.popup__close');
 
     card.querySelector('.popup__title').textContent = ad.offer.title;
     card.querySelector('.popup__text--address').textContent = ad.offer.address;
     card.querySelector('.popup__text--price').textContent = ad.offer.price + '₽/ночь';
-    card.querySelector('.popup__type').textContent = DICTIONARY[window.getRandomElement(window.data.offerParameters.TYPES)];
+    card.querySelector('.popup__type').textContent = DICTIONARY[ad.offer.type];
     card.querySelector('.popup__text--capacity').textContent = ad.offer.rooms + ' комнаты для ' + ad.offer.guests + ' гостей ';
     card.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
 
@@ -69,11 +71,10 @@
     appendElements(getCardFeatures(ad.offer.features), cardFeatures);
     appendElements(getCardImages(ad.offer.photos), cardPhotos);
 
-    var popupCloseButton = card.querySelector('.popup__close');
-
     popupCloseButton.addEventListener('click', function () {
       window.closePopup();
     });
+
     document.addEventListener('keydown', window.map.onPopupEscPress);
 
     return card;

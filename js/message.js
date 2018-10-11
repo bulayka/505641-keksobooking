@@ -7,7 +7,7 @@
     if (evt.keyCode === window.map.ESC_KEYCODE) {
       var success = mainContainer.querySelector('.success');
       mainContainer.removeChild(success);
-      mainContainer.removeEventListener('keydown', onMessageSuccessClose);
+      document.removeEventListener('keydown', onMessageSuccessClose);
     }
   }
 
@@ -15,7 +15,7 @@
     if (evt.keyCode === window.map.ESC_KEYCODE) {
       var error = mainContainer.querySelector('.error');
       mainContainer.removeChild(error);
-      mainContainer.removeEventListener('keydown', onMessageErrorClose);
+      document.removeEventListener('keydown', onMessageErrorClose);
     }
   }
 
@@ -28,7 +28,7 @@
       mainContainer.removeChild(elementSuccess);
     });
 
-    mainContainer.addEventListener('keydown', onMessageSuccessClose);
+    document.addEventListener('keydown', onMessageSuccessClose);
   };
 
   window.messageError = function (errMess) {
@@ -40,6 +40,6 @@
     elemError.addEventListener('click', function () {
       mainContainer.removeChild(elemError);
     });
-    mainContainer.addEventListener('keydown', onMessageErrorClose);
+    document.addEventListener('keydown', onMessageErrorClose);
   };
 })();

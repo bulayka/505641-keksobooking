@@ -41,4 +41,29 @@
   window.getAvatarUrl = function (index) {
     return 'img/avatars/user0' + index + '.png';
   };
+
+  window.resetFeatures = function (features) {
+    features.forEach(function (feature) {
+      if (feature.checked) {
+        feature.checked = false;
+      }
+    });
+  };
+
+  window.resetCheckboxes = function (checkboxes) {
+    checkboxes.forEach(function (checkbox) {
+      if (checkbox.checked) {
+        checkbox.checked = false;
+      }
+    });
+  };
+
+  window.isElementsExistInArray = function (elements, array) {
+    for (var i = 0; i < elements.length; i++) {
+      if (!array.includes(elements[i])) {
+        return false;
+      }
+    }
+    return true;
+  };
 })();
