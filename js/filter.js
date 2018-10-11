@@ -28,8 +28,6 @@
     }
   };
 
-  var filteredAds = [];
-
   var filterForm = document.querySelector('.map__filters');
   var filterFormElements = filterForm.children;
   var type = filterForm.querySelector('#housing-type');
@@ -76,10 +74,18 @@
   };
 
   var roomsCompare = function (ad) {
+    if (rooms.value === 'any') {
+      return true;
+    }
+
     return ad.offer.rooms === parseInt(rooms.value, 10);
   };
 
   var guestsCompare = function (ad) {
+    if (guests.value === 'any') {
+      return true;
+    }
+
     return ad.offer.guests === parseInt(guests.value, 10);
   };
 
@@ -91,7 +97,7 @@
   };
 
   var featuresCompare = function (list, values) {
-    return !values || window.util.isElementsExistInArray(values, list.offer.features);
+    return !values || window.isElementsExistInArray(values, list.offer.features);
   };
 
   var TypeToCompareFunction = {
@@ -119,16 +125,11 @@
     window.closePopup();
     window.removeSimilarPins();
 
-
-    var result = rawData.filter(typeCompare);
+    window.result = window.rawData.filter(typeCompare).filter(priceCompare).filter(roomsCompare).filter(guestsCompare).filter(featuresCompare);
     var fragment = document.createDocumentFragment();
 
-    if (result.length > COUNT_CARDS) {
-      result.length = COUNT_CARDS;
-    }
-
-    for (var i = 0; i < result.length; i++) {
-      fragment.appendChild(window.createPin(result[i], i));
+    for (var i = 0; i < window.result.length; i++) {
+      fragment.appendChild(window.createPin(window.result[i], i));
     }
     window.map.pinsContainer.appendChild(fragment);
   };
@@ -138,7 +139,8 @@
   window.filter = {
     enableFilterForm: enableFilterForm,
     disableFilterForm: disableFilterForm,
-    resetFilters: resetFilters
+    resetFilters: resetFilters,
+    onFilterFormChange: onFilterFormChange
   };
 
 })();

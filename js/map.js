@@ -8,7 +8,6 @@
   var MAX_Y = 630;
   var INIT_X = 570;
   var INIT_Y = 375;
-  var HALF = Math.round(mainPinWidth / 2);
   var ARROWHEIGHT = 22;
 
   var map = document.querySelector('.map');
@@ -19,9 +18,9 @@
   var adForm = document.querySelector('.ad-form');
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var addressInput = adForm.querySelector('#address');
-
   var fragment = document.createDocumentFragment();
-  var adsList = [];
+
+  var HALF = Math.round(mainPinWidth / 2);
 
   var getActiveCondition = function () {
     map.classList.remove('map--faded');
@@ -33,12 +32,7 @@
 
     window.getData(function (serverData) {
       window.rawData = serverData.slice();
-      // window.map.adsList = serverData.slice();
-      for (var i = 0; i < serverData.length; i++) {
-        fragment.appendChild(window.createPin(serverData[i], i));
-      }
-      pinsContainer.appendChild(fragment);
-
+      window.filter.onFilterFormChange();
     }, window.messageError);
   };
 
@@ -66,8 +60,7 @@
     var target = evt.target;
     while (target !== pinsContainer) {
       if (target.tagName === 'BUTTON') {
-        var moveCard = window.card.createCard(window.rawData[target.dataset.id]);
-        // var moveCard = window.card.createCard(window.map.adsList[target.dataset.id]);
+        var moveCard = window.card.createCard(window.result[target.dataset.id]);
         map.insertBefore(moveCard, mapFilters);
 
         var cardsAmount = document.querySelectorAll('.map__card');
@@ -181,6 +174,5 @@
     onPopupEscPress: onPopupEscPress,
     pinsContainer: pinsContainer,
     fragment: fragment,
-    adsList: adsList
   };
 })();

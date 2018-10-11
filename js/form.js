@@ -58,5 +58,6 @@
   resetForm.addEventListener('click', function () {
     window.getUnactivateCondition();
     window.filter.resetFilters();
+    window.resetCheckboxes(featuresInputs);
   });
 })();

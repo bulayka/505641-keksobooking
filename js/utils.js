@@ -57,4 +57,13 @@
       }
     });
   };
+
+  window.isElementsExistInArray = function (elements, array) {
+    for (var i = 0; i < elements.length; i++) {
+      if (!array.includes(elements[i])) {
+        return false;
+      }
+    }
+    return true;
+  };
 })();
