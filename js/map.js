@@ -46,6 +46,7 @@
 
     mainPinToStartPosition();
     window.map.adForm.reset();
+    window.filter.filterForm.reset();
     addressInput.value = setAddress(mapPinMain);
     window.deletePins();
     window.closePopup();

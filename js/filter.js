@@ -131,6 +131,10 @@
     window.result = window.rawData.filter(typeCompare).filter(priceCompare).filter(roomsCompare).filter(guestsCompare).filter(featuresCompare);
     var fragment = document.createDocumentFragment();
 
+    if (window.result.length > COUNT_CARDS) {
+      window.result.length = COUNT_CARDS;
+    }
+
     for (var i = 0; i < window.result.length; i++) {
       fragment.appendChild(window.createPin(window.result[i], i));
     }
@@ -140,6 +144,7 @@
   filterForm.addEventListener('change', window.debounce(onFilterFormChange));
 
   window.filter = {
+    filterForm: filterForm,
     enableFilterForm: enableFilterForm,
     disableFilterForm: disableFilterForm,
     resetFilters: resetFilters,
