@@ -118,22 +118,19 @@
 
     window.closePopup();
     window.removeSimilarPins();
-    window.getData(function (serverData) {
-      filteredAds = serverData.slice();
 
-      var result = filteredAds.filter(typeCompare);
 
-      var fragment = document.createDocumentFragment();
+    var result = rawData.filter(typeCompare);
+    var fragment = document.createDocumentFragment();
 
-      if (result.length > COUNT_CARDS) {
-        result.length = COUNT_CARDS;
-      }
+    if (result.length > COUNT_CARDS) {
+      result.length = COUNT_CARDS;
+    }
 
-      for (var i = 0; i < result.length; i++) {
-        fragment.appendChild(window.createPin(result[i], i));
-      }
-      window.map.pinsContainer.appendChild(fragment);
-    }, window.messageError);
+    for (var i = 0; i < result.length; i++) {
+      fragment.appendChild(window.createPin(result[i], i));
+    }
+    window.map.pinsContainer.appendChild(fragment);
   };
 
   filterForm.addEventListener('change', window.debounce(onFilterFormChange));

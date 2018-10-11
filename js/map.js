@@ -32,7 +32,8 @@
     }
 
     window.getData(function (serverData) {
-      window.map.adsList = serverData.slice();
+      window.rawData = serverData.slice();
+      // window.map.adsList = serverData.slice();
       for (var i = 0; i < serverData.length; i++) {
         fragment.appendChild(window.createPin(serverData[i], i));
       }
@@ -65,7 +66,8 @@
     var target = evt.target;
     while (target !== pinsContainer) {
       if (target.tagName === 'BUTTON') {
-        var moveCard = window.card.createCard(window.map.adsList[target.dataset.id]);
+        var moveCard = window.card.createCard(window.rawData[target.dataset.id]);
+        // var moveCard = window.card.createCard(window.map.adsList[target.dataset.id]);
         map.insertBefore(moveCard, mapFilters);
 
         var cardsAmount = document.querySelectorAll('.map__card');
