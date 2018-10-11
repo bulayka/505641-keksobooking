@@ -34,7 +34,7 @@
   var price = filterForm.querySelector('#housing-price');
   var rooms = filterForm.querySelector('#housing-rooms');
   var guests = filterForm.querySelector('#housing-guests');
-  var features = filterForm.querySelectorAll('#housing-features input');
+  var features = filterForm.querySelectorAll('.map__checkbox:checked');
 
   var enableFilterForm = function () {
     Array.prototype.forEach.call(filterFormElements, function (item) {
@@ -96,8 +96,11 @@
     return ad.offer.price >= roomPrice[price.value].MIN && ad.offer.price <= roomPrice[price.value].MAX;
   };
 
-  var featuresCompare = function (list, values) {
-    return !values || window.isElementsExistInArray(values, list.offer.features);
+  var featuresCompare = function (pin) {
+    var featuresList = Array.from(filterForm.querySelectorAll('.map__checkbox:checked'));
+    return featuresList.every(function (feature) {
+      return pin.offer.features.includes(feature.value);
+    });
   };
 
   var TypeToCompareFunction = {
