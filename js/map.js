@@ -30,13 +30,13 @@
       adFormFieldsets[j].disabled = false;
     }
 
-    window.getData(function (serverData) {
+    window.backend.getData(function (serverData) {
       window.loadedData = serverData.slice();
       window.filter.onFilterFormChange();
     }, window.messageError);
   };
 
-  window.getUnactivateCondition = function () {
+  var getUnactivateCondition = function () {
     map.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
 
@@ -48,25 +48,25 @@
     window.map.adForm.reset();
     window.filter.filterForm.reset();
     addressInput.value = setAddress(mapPinMain);
-    window.deletePins();
-    window.closePopup();
+    window.pin.deletePins();
+    closePopup();
   };
 
   window.onload = function () {
-    window.getUnactivateCondition();
+    getUnactivateCondition();
   };
 
   pinsContainer.addEventListener('click', function (evt) {
     var target = evt.target;
     while (target !== pinsContainer) {
       if (target.tagName === 'BUTTON' && target.dataset.id) {
-        var moveCard = window.card.createCard(window.filteredData[target.dataset.id]);
+        var moveCard = window.createCard(window.filteredData[target.dataset.id]);
         map.insertBefore(moveCard, mapFilters);
 
         var cardsAmount = document.querySelectorAll('.map__card');
 
         if (cardsAmount.length !== 1) {
-          window.closePopup();
+          closePopup();
         }
         document.addEventListener('keydown', onPopupEscPress);
         return;
@@ -77,11 +77,11 @@
 
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
-      window.closePopup();
+      closePopup();
     }
   };
 
-  window.closePopup = function () {
+  var closePopup = function () {
     var mapCard = document.querySelector('.map__card');
     if (mapCard) {
       mapCard.remove();
@@ -174,5 +174,7 @@
     onPopupEscPress: onPopupEscPress,
     pinsContainer: pinsContainer,
     fragment: fragment,
+    getUnactivateCondition: getUnactivateCondition,
+    closePopup: closePopup
   };
 })();

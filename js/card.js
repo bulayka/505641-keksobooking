@@ -50,7 +50,7 @@
     });
   };
 
-  var createCard = function (ad) {
+  window.createCard = function (ad) {
     var card = cardTemplate.cloneNode(true);
     var cardFeatures = card.querySelector('.popup__features');
     var cardPhotos = card.querySelector('.popup__photos');
@@ -70,7 +70,7 @@
     appendElements(getCardImages(ad.offer.photos), cardPhotos);
 
     popupCloseButton.addEventListener('click', function () {
-      window.closePopup();
+      window.map.closePopup();
     });
 
     document.addEventListener('keydown', window.map.onPopupEscPress);
@@ -78,7 +78,4 @@
     return card;
   };
 
-  window.card = {
-    createCard: createCard
-  };
 })();

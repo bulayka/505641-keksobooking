@@ -9,7 +9,7 @@
     POST: 'https://js.dump.academy/keksobooking'
   };
 
-  window.getData = function (onLoad, onError) {
+  var getData = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -35,7 +35,7 @@
     xhr.send();
   };
 
-  window.sendData = function (data, onLoad, onError) {
+  var sendData = function (data, onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -59,6 +59,11 @@
 
     xhr.open('POST', Url.POST);
     xhr.send(data);
+  };
+
+  window.backend = {
+    getData: getData,
+    sendData: sendData
   };
 
 })();

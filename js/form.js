@@ -50,11 +50,11 @@
 
   window.map.adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.sendData(new FormData(window.map.adForm), window.messageSuccess, window.messageError);
-    window.getUnactivateCondition();
+    window.map.getUnactivateCondition();
+    window.backend.sendData(new FormData(window.map.adForm), window.message.messageSuccess, window.message.messageError);
   });
 
   resetForm.addEventListener('click', function () {
-    window.getUnactivateCondition();
+    window.map.getUnactivateCondition();
   });
 })();

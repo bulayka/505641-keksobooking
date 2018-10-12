@@ -104,8 +104,8 @@
       }
     }
 
-    window.closePopup();
-    window.removeSimilarPins();
+    window.map.closePopup();
+    window.pin.deletePins();
 
     window.filteredData = window.loadedData.filter(typeCompare).filter(priceCompare).filter(roomsCompare).filter(guestsCompare).filter(featuresCompare);
     var fragment = document.createDocumentFragment();
@@ -115,7 +115,7 @@
     }
 
     for (var i = 0; i < window.filteredData.length; i++) {
-      fragment.appendChild(window.createPin(window.filteredData[i], i));
+      fragment.appendChild(window.pin.createPin(window.filteredData[i], i));
     }
     window.map.pinsContainer.appendChild(fragment);
   };
