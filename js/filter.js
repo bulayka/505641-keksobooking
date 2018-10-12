@@ -5,7 +5,7 @@
 
   var filterValue = {};
 
-  var defaultValue = {
+  var DefaultValue = {
     'type': 'any',
     'price': 'any',
     'rooms': 'any',
@@ -13,7 +13,7 @@
     'features': []
   };
 
-  var roomPrice = {
+  var RoomPrice = {
     'low': {
       MIN: 0,
       MAX: 9999
@@ -59,10 +59,10 @@
   };
 
   var resetFilters = function () {
-    type.value = defaultValue.type;
-    price.value = defaultValue.price;
-    rooms.value = defaultValue.rooms;
-    guests.value = defaultValue.guests;
+    type.value = DefaultValue.type;
+    price.value = DefaultValue.price;
+    rooms.value = DefaultValue.rooms;
+    guests.value = DefaultValue.guests;
     window.util.resetFeatures(features);
   };
 
@@ -93,7 +93,7 @@
     if (price.value === 'any') {
       return true;
     }
-    return ad.offer.price >= roomPrice[price.value].MIN && ad.offer.price <= roomPrice[price.value].MAX;
+    return ad.offer.price >= RoomPrice[price.value].MIN && ad.offer.price <= RoomPrice[price.value].MAX;
   };
 
   var featuresCompare = function (pin) {
@@ -120,7 +120,7 @@
     filterValue.features = getChosenFeatures();
 
     for (var key in filterValue) {
-      if (filterValue[key].toString() !== defaultValue[key].toString()) {
+      if (filterValue[key].toString() !== DefaultValue[key].toString()) {
         compares.push(TypeToCompareFunction[key]);
       }
     }

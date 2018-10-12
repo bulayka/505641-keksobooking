@@ -13,6 +13,7 @@
   var map = document.querySelector('.map');
   var mapPinMain = document.querySelector('.map__pin--main');
   var mainPinWidth = mapPinMain.offsetWidth;
+  var halfMainPinWidth = Math.round(mainPinWidth / 2);
   var pinsContainer = document.querySelector('.map__pins');
   var mapFilters = map.querySelector('.map__filters-container');
   var adForm = document.querySelector('.ad-form');
@@ -20,7 +21,6 @@
   var addressInput = adForm.querySelector('#address');
   var fragment = document.createDocumentFragment();
 
-  var HALF = Math.round(mainPinWidth / 2);
 
   var getActiveCondition = function () {
     map.classList.remove('map--faded');
@@ -121,10 +121,10 @@
       var moveX = mapPinMain.offsetLeft - shift.x;
       var moveY = mapPinMain.offsetTop - shift.y;
 
-      if (moveX <= MIN_X - HALF) {
-        moveX = MIN_X - HALF + 'px';
-      } else if (moveX >= MAX_X - HALF) {
-        moveX = MAX_X - HALF + 'px';
+      if (moveX <= MIN_X - halfMainPinWidth) {
+        moveX = MIN_X - halfMainPinWidth + 'px';
+      } else if (moveX >= MAX_X - halfMainPinWidth) {
+        moveX = MAX_X - halfMainPinWidth + 'px';
       } else {
         moveX = moveX + 'px';
       }

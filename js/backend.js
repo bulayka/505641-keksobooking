@@ -4,7 +4,7 @@
   var STATUS_OK = 200;
   var TIMEOUT = 10000;
 
-  var url = {
+  var Url = {
     GET: 'https://js.dump.academy/keksobooking/data',
     POST: 'https://js.dump.academy/keksobooking'
   };
@@ -31,7 +31,7 @@
 
     xhr.timeout = TIMEOUT;
 
-    xhr.open('GET', url.GET);
+    xhr.open('GET', Url.GET);
     xhr.send();
   };
 
@@ -57,7 +57,7 @@
 
     xhr.timeout = TIMEOUT;
 
-    xhr.open('POST', url.POST);
+    xhr.open('POST', Url.POST);
     xhr.send(data);
   };
 

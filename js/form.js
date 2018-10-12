@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var TYPE_MIN_PRICE = {
+  var TypeMinPrice = {
     bungalo: 0,
     flat: 1000,
     house: 5000,
@@ -19,8 +19,8 @@
 
   houseType.addEventListener('change', function (evt) {
     var currentValue = evt.target.value;
-    inputPrice.min = TYPE_MIN_PRICE[currentValue];
-    inputPrice.placeholder = TYPE_MIN_PRICE[currentValue];
+    inputPrice.min = TypeMinPrice[currentValue];
+    inputPrice.placeholder = TypeMinPrice[currentValue];
   });
 
   timeIn.addEventListener('change', function (evt) {
