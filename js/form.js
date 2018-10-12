@@ -46,12 +46,13 @@
     }
   };
 
-  submitForm.addEventListener('click', onRoomsSelect);
+  roomNumber.addEventListener('change', onRoomsSelect);
+  capacity.addEventListener('change', onRoomsSelect);
 
   window.map.adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.map.getUnactivateCondition();
     window.backend.sendData(new FormData(window.map.adForm), window.message.messageSuccess, window.message.messageError);
+    window.map.getUnactivateCondition();
   });
 
   resetForm.addEventListener('click', function () {

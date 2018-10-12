@@ -34,6 +34,8 @@
       window.loadedData = serverData.slice();
       window.filter.onFilterFormChange();
     }, window.messageError);
+
+    window.filter.enableFilterForm();
   };
 
   var getUnactivateCondition = function () {
@@ -47,6 +49,7 @@
     mainPinToStartPosition();
     window.map.adForm.reset();
     window.filter.filterForm.reset();
+    window.filter.disableFilterForm();
     addressInput.value = setAddress(mapPinMain);
     window.pin.deletePins();
     closePopup();
