@@ -13,7 +13,6 @@
   var timeOut = document.querySelector('#timeout');
   var roomNumber = document.querySelector('#room_number');
   var capacity = document.querySelector('#capacity');
-  var submitForm = window.map.adForm;
   var resetForm = document.querySelector('.ad-form__reset');
 
   houseType.addEventListener('change', function (evt) {
