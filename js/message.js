@@ -19,7 +19,7 @@
     }
   }
 
-  var messageSuccess = function () {
+  var success = function () {
     var formSuccess = document.querySelector('#success').content.querySelector('.success');
     var cloneForm = formSuccess.cloneNode(true);
     mainContainer.appendChild(cloneForm);
@@ -31,7 +31,7 @@
     document.addEventListener('keydown', onMessageSuccessClose);
   };
 
-  var messageError = function (errMess) {
+  var error = function (errMess) {
     var formError = document.querySelector('#error').content.querySelector('.error');
     var cloneForm = formError.cloneNode(true);
     mainContainer.appendChild(cloneForm);
@@ -44,8 +44,8 @@
   };
 
   window.message = {
-    messageSuccess: messageSuccess,
-    messageError: messageError
+    success: success,
+    error: error
   };
 
 })();

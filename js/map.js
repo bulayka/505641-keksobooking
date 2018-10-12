@@ -32,10 +32,10 @@
 
     window.backend.getData(function (serverData) {
       window.loadedData = serverData.slice();
-      window.filter.onFilterFormChange();
+      window.filter.onFormChange();
     }, window.messageError);
 
-    window.filter.enableFilterForm();
+    window.filter.enableForm();
   };
 
   var getUnactivateCondition = function () {
@@ -48,8 +48,8 @@
 
     mainPinToStartPosition();
     window.map.adForm.reset();
-    window.filter.filterForm.reset();
-    window.filter.disableFilterForm();
+    window.filter.form.reset();
+    window.filter.disableForm();
     addressInput.value = setAddress(mapPinMain);
     window.pin.deletePins();
     closePopup();
