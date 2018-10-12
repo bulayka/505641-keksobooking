@@ -56,7 +56,6 @@
     window.getUnactivateCondition();
   };
 
-  /* Устанавливаем обработчик клика на контейнер с пинами */
   pinsContainer.addEventListener('click', function (evt) {
     var target = evt.target;
     while (target !== pinsContainer) {

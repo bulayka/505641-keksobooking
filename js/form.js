@@ -9,7 +9,6 @@
   };
   var houseType = document.querySelector('#type');
   var inputPrice = window.map.adForm.querySelector('#price');
-  var featuresInputs = window.map.adForm.querySelectorAll('[name = features]');
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
   var roomNumber = document.querySelector('#room_number');
@@ -57,7 +56,5 @@
 
   resetForm.addEventListener('click', function () {
     window.getUnactivateCondition();
-    window.filter.resetFilters();
-    window.resetCheckboxes(featuresInputs);
   });
 })();
