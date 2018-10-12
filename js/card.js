@@ -3,11 +3,9 @@
 (function () {
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
-  var CARD_PHOTOS = {
-    width: 45,
-    height: 40,
-    alt: 'Фотография жилья'
-  };
+  var PHOTO_WIDTH = 45;
+  var PHOTO_HEIGHT = 40;
+  var PHOTO_ALT = 'Фотография жилья';
 
   var DICTIONARY = {
     'palace': 'Дворец',
@@ -37,9 +35,9 @@
 
       imageItem.src = item;
       imageItem.classList.add('popup__photo');
-      imageItem.width = CARD_PHOTOS.width;
-      imageItem.height = CARD_PHOTOS.height;
-      imageItem.alt = 'Фотография жилья';
+      imageItem.width = PHOTO_WIDTH;
+      imageItem.height = PHOTO_HEIGHT;
+      imageItem.alt = PHOTO_ALT;
       imageList.push(imageItem);
     });
 
