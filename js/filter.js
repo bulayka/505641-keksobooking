@@ -28,23 +28,23 @@
     }
   };
 
-  var filterForm = document.querySelector('.map__filters');
-  var filterFormChildren = filterForm.elements;
-  var type = filterForm.querySelector('#housing-type');
-  var price = filterForm.querySelector('#housing-price');
-  var rooms = filterForm.querySelector('#housing-rooms');
-  var guests = filterForm.querySelector('#housing-guests');
-  var features = filterForm.querySelectorAll('.map__checkbox:checked');
+  var form = document.querySelector('.map__filters');
+  var formChildren = form.elements;
+  var type = form.querySelector('#housing-type');
+  var price = form.querySelector('#housing-price');
+  var rooms = form.querySelector('#housing-rooms');
+  var guests = form.querySelector('#housing-guests');
+  var features = form.querySelectorAll('.map__checkbox:checked');
 
-  var enableFilterForm = function () {
-    var elements = filterFormChildren;
+  var enableForm = function () {
+    var elements = formChildren;
     for (var i = 0, len = elements.length; i < len; ++i) {
       elements[i].disabled = false;
     }
   };
 
-  var disableFilterForm = function () {
-    var elements = filterFormChildren;
+  var disableForm = function () {
+    var elements = formChildren;
     for (var i = 0, len = elements.length; i < len; ++i) {
       elements[i].disabled = true;
     }
@@ -91,7 +91,7 @@
   };
 
   var featuresCompare = function (pin) {
-    var featuresList = Array.from(filterForm.querySelectorAll('.map__checkbox:checked'));
+    var featuresList = Array.from(form.querySelectorAll('.map__checkbox:checked'));
     return featuresList.every(function (feature) {
       return pin.offer.features.includes(feature.value);
     });
@@ -105,7 +105,7 @@
     features: featuresCompare
   };
 
-  var onFilterFormChange = function () {
+  var onFormChange = function () {
     var compares = [];
     filterValue.type = type.value;
     filterValue.price = price.value;
@@ -135,13 +135,13 @@
     window.map.pinsContainer.appendChild(fragment);
   };
 
-  filterForm.addEventListener('change', window.debounce(onFilterFormChange));
+  form.addEventListener('change', window.debounce(onFormChange));
 
   window.filter = {
-    filterForm: filterForm,
-    enableFilterForm: enableFilterForm,
-    disableFilterForm: disableFilterForm,
-    onFilterFormChange: onFilterFormChange
+    form: form,
+    enableForm: enableForm,
+    disableForm: disableForm,
+    onFormChange: onFormChange
   };
 
 })();
