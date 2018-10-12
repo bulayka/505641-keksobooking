@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var OPTION_VALUE = {
+  var TypeMinPrice = {
     bungalo: 0,
     flat: 1000,
     house: 5000,
@@ -9,7 +9,6 @@
   };
   var houseType = document.querySelector('#type');
   var inputPrice = window.map.adForm.querySelector('#price');
-  var featuresInputs = window.map.adForm.querySelectorAll('[name = features]');
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
   var roomNumber = document.querySelector('#room_number');
@@ -19,8 +18,8 @@
 
   houseType.addEventListener('change', function (evt) {
     var currentValue = evt.target.value;
-    inputPrice.min = OPTION_VALUE[currentValue];
-    inputPrice.placeholder = OPTION_VALUE[currentValue];
+    inputPrice.min = TypeMinPrice[currentValue];
+    inputPrice.placeholder = TypeMinPrice[currentValue];
   });
 
   timeIn.addEventListener('change', function (evt) {
@@ -51,13 +50,11 @@
 
   window.map.adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.sendData(new FormData(window.map.adForm), window.messageSuccess, window.messageError);
-    window.getUnactivateCondition();
+    window.map.getUnactivateCondition();
+    window.backend.sendData(new FormData(window.map.adForm), window.message.messageSuccess, window.message.messageError);
   });
 
   resetForm.addEventListener('click', function () {
-    window.getUnactivateCondition();
-    window.filter.resetFilters();
-    window.resetCheckboxes(featuresInputs);
+    window.map.getUnactivateCondition();
   });
 })();

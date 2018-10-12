@@ -1,15 +1,13 @@
 'use strict';
 
 (function () {
+  var PHOTO_WIDTH = 45;
+  var PHOTO_HEIGHT = 40;
+  var PHOTO_ALT = 'Фотография жилья';
+
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
-  var CARD_PHOTOS = {
-    width: 45,
-    height: 40,
-    alt: 'Фотография жилья'
-  };
-
-  var DICTIONARY = {
+  var Dictionary = {
     'palace': 'Дворец',
     'flat': 'Квартира',
     'house': 'Дом',
@@ -37,9 +35,9 @@
 
       imageItem.src = item;
       imageItem.classList.add('popup__photo');
-      imageItem.width = CARD_PHOTOS.width;
-      imageItem.height = CARD_PHOTOS.height;
-      imageItem.alt = 'Фотография жилья';
+      imageItem.width = PHOTO_WIDTH;
+      imageItem.height = PHOTO_HEIGHT;
+      imageItem.alt = PHOTO_ALT;
       imageList.push(imageItem);
     });
 
@@ -52,7 +50,7 @@
     });
   };
 
-  var createCard = function (ad) {
+  window.createCard = function (ad) {
     var card = cardTemplate.cloneNode(true);
     var cardFeatures = card.querySelector('.popup__features');
     var cardPhotos = card.querySelector('.popup__photos');
@@ -61,7 +59,7 @@
     card.querySelector('.popup__title').textContent = ad.offer.title;
     card.querySelector('.popup__text--address').textContent = ad.offer.address;
     card.querySelector('.popup__text--price').textContent = ad.offer.price + '₽/ночь';
-    card.querySelector('.popup__type').textContent = DICTIONARY[ad.offer.type];
+    card.querySelector('.popup__type').textContent = Dictionary[ad.offer.type];
     card.querySelector('.popup__text--capacity').textContent = ad.offer.rooms + ' комнаты для ' + ad.offer.guests + ' гостей ';
     card.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
 
@@ -72,7 +70,7 @@
     appendElements(getCardImages(ad.offer.photos), cardPhotos);
 
     popupCloseButton.addEventListener('click', function () {
-      window.closePopup();
+      window.map.closePopup();
     });
 
     document.addEventListener('keydown', window.map.onPopupEscPress);
@@ -80,7 +78,4 @@
     return card;
   };
 
-  window.card = {
-    createCard: createCard
-  };
 })();

@@ -5,7 +5,7 @@
 
   var filterValue = {};
 
-  var defaultValue = {
+  var DefaultValue = {
     'type': 'any',
     'price': 'any',
     'rooms': 'any',
@@ -13,7 +13,7 @@
     'features': []
   };
 
-  var roomPrice = {
+  var RoomPrice = {
     'low': {
       MIN: 0,
       MAX: 9999
@@ -29,24 +29,11 @@
   };
 
   var filterForm = document.querySelector('.map__filters');
-  var filterFormElements = filterForm.children;
   var type = filterForm.querySelector('#housing-type');
   var price = filterForm.querySelector('#housing-price');
   var rooms = filterForm.querySelector('#housing-rooms');
   var guests = filterForm.querySelector('#housing-guests');
   var features = filterForm.querySelectorAll('.map__checkbox:checked');
-
-  var enableFilterForm = function () {
-    Array.prototype.forEach.call(filterFormElements, function (item) {
-      item.disabled = false;
-    });
-  };
-
-  var disableFilterForm = function () {
-    Array.prototype.forEach.call(filterFormElements, function (item) {
-      item.disabled = true;
-    });
-  };
 
   var getChosenFeatures = function () {
     var chosenFeatures = [];
@@ -56,14 +43,6 @@
       }
     });
     return chosenFeatures;
-  };
-
-  var resetFilters = function () {
-    type.value = defaultValue.type;
-    price.value = defaultValue.price;
-    rooms.value = defaultValue.rooms;
-    guests.value = defaultValue.guests;
-    window.util.resetFeatures(features);
   };
 
   var typeCompare = function (ad) {
@@ -93,7 +72,7 @@
     if (price.value === 'any') {
       return true;
     }
-    return ad.offer.price >= roomPrice[price.value].MIN && ad.offer.price <= roomPrice[price.value].MAX;
+    return ad.offer.price >= RoomPrice[price.value].MIN && ad.offer.price <= RoomPrice[price.value].MAX;
   };
 
   var featuresCompare = function (pin) {
@@ -120,23 +99,23 @@
     filterValue.features = getChosenFeatures();
 
     for (var key in filterValue) {
-      if (filterValue[key].toString() !== defaultValue[key].toString()) {
+      if (filterValue[key].toString() !== DefaultValue[key].toString()) {
         compares.push(TypeToCompareFunction[key]);
       }
     }
 
-    window.closePopup();
-    window.removeSimilarPins();
+    window.map.closePopup();
+    window.pin.deletePins();
 
-    window.result = window.rawData.filter(typeCompare).filter(priceCompare).filter(roomsCompare).filter(guestsCompare).filter(featuresCompare);
+    window.filteredData = window.loadedData.filter(typeCompare).filter(priceCompare).filter(roomsCompare).filter(guestsCompare).filter(featuresCompare);
     var fragment = document.createDocumentFragment();
 
-    if (window.result.length > COUNT_CARDS) {
-      window.result.length = COUNT_CARDS;
+    if (window.filteredData.length > COUNT_CARDS) {
+      window.filteredData.length = COUNT_CARDS;
     }
 
-    for (var i = 0; i < window.result.length; i++) {
-      fragment.appendChild(window.createPin(window.result[i], i));
+    for (var i = 0; i < window.filteredData.length; i++) {
+      fragment.appendChild(window.pin.createPin(window.filteredData[i], i));
     }
     window.map.pinsContainer.appendChild(fragment);
   };
@@ -145,9 +124,6 @@
 
   window.filter = {
     filterForm: filterForm,
-    enableFilterForm: enableFilterForm,
-    disableFilterForm: disableFilterForm,
-    resetFilters: resetFilters,
     onFilterFormChange: onFilterFormChange
   };
 

@@ -13,6 +13,7 @@
   var map = document.querySelector('.map');
   var mapPinMain = document.querySelector('.map__pin--main');
   var mainPinWidth = mapPinMain.offsetWidth;
+  var halfMainPinWidth = Math.round(mainPinWidth / 2);
   var pinsContainer = document.querySelector('.map__pins');
   var mapFilters = map.querySelector('.map__filters-container');
   var adForm = document.querySelector('.ad-form');
@@ -20,7 +21,6 @@
   var addressInput = adForm.querySelector('#address');
   var fragment = document.createDocumentFragment();
 
-  var HALF = Math.round(mainPinWidth / 2);
 
   var getActiveCondition = function () {
     map.classList.remove('map--faded');
@@ -30,13 +30,13 @@
       adFormFieldsets[j].disabled = false;
     }
 
-    window.getData(function (serverData) {
-      window.rawData = serverData.slice();
+    window.backend.getData(function (serverData) {
+      window.loadedData = serverData.slice();
       window.filter.onFilterFormChange();
     }, window.messageError);
   };
 
-  window.getUnactivateCondition = function () {
+  var getUnactivateCondition = function () {
     map.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
 
@@ -48,26 +48,25 @@
     window.map.adForm.reset();
     window.filter.filterForm.reset();
     addressInput.value = setAddress(mapPinMain);
-    window.deletePins();
-    window.closePopup();
+    window.pin.deletePins();
+    closePopup();
   };
 
   window.onload = function () {
-    window.getUnactivateCondition();
+    getUnactivateCondition();
   };
 
-  /* Устанавливаем обработчик клика на контейнер с пинами */
   pinsContainer.addEventListener('click', function (evt) {
     var target = evt.target;
     while (target !== pinsContainer) {
-      if (target.tagName === 'BUTTON') {
-        var moveCard = window.card.createCard(window.result[target.dataset.id]);
+      if (target.tagName === 'BUTTON' && target.dataset.id) {
+        var moveCard = window.createCard(window.filteredData[target.dataset.id]);
         map.insertBefore(moveCard, mapFilters);
 
         var cardsAmount = document.querySelectorAll('.map__card');
 
         if (cardsAmount.length !== 1) {
-          window.closePopup();
+          closePopup();
         }
         document.addEventListener('keydown', onPopupEscPress);
         return;
@@ -78,11 +77,11 @@
 
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
-      window.closePopup();
+      closePopup();
     }
   };
 
-  window.closePopup = function () {
+  var closePopup = function () {
     var mapCard = document.querySelector('.map__card');
     if (mapCard) {
       mapCard.remove();
@@ -121,10 +120,10 @@
       var moveX = mapPinMain.offsetLeft - shift.x;
       var moveY = mapPinMain.offsetTop - shift.y;
 
-      if (moveX <= MIN_X - HALF) {
-        moveX = MIN_X - HALF + 'px';
-      } else if (moveX >= MAX_X - HALF) {
-        moveX = MAX_X - HALF + 'px';
+      if (moveX <= MIN_X - halfMainPinWidth) {
+        moveX = MIN_X - halfMainPinWidth + 'px';
+      } else if (moveX >= MAX_X - halfMainPinWidth) {
+        moveX = MAX_X - halfMainPinWidth + 'px';
       } else {
         moveX = moveX + 'px';
       }
@@ -175,5 +174,7 @@
     onPopupEscPress: onPopupEscPress,
     pinsContainer: pinsContainer,
     fragment: fragment,
+    getUnactivateCondition: getUnactivateCondition,
+    closePopup: closePopup
   };
 })();
