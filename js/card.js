@@ -1,11 +1,11 @@
 'use strict';
 
 (function () {
-  var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-
   var PHOTO_WIDTH = 45;
   var PHOTO_HEIGHT = 40;
   var PHOTO_ALT = 'Фотография жилья';
+
+  var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
   var Dictionary = {
     'palace': 'Дворец',
