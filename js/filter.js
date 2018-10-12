@@ -29,7 +29,7 @@
   };
 
   var filterForm = document.querySelector('.map__filters');
-  var filterFormElements = filterForm.children;
+  var filterFormChildren = filterForm.children;
   var type = filterForm.querySelector('#housing-type');
   var price = filterForm.querySelector('#housing-price');
   var rooms = filterForm.querySelector('#housing-rooms');
@@ -37,13 +37,13 @@
   var features = filterForm.querySelectorAll('.map__checkbox:checked');
 
   var enableFilterForm = function () {
-    Array.prototype.forEach.call(filterFormElements, function (item) {
+    Array.prototype.forEach.call(filterFormChildren, function (item) {
       item.disabled = false;
     });
   };
 
   var disableFilterForm = function () {
-    Array.prototype.forEach.call(filterFormElements, function (item) {
+    Array.prototype.forEach.call(filterFormChildren, function (item) {
       item.disabled = true;
     });
   };
@@ -128,15 +128,15 @@
     window.closePopup();
     window.removeSimilarPins();
 
-    window.result = window.rawData.filter(typeCompare).filter(priceCompare).filter(roomsCompare).filter(guestsCompare).filter(featuresCompare);
+    window.filteredData = window.loadedData.filter(typeCompare).filter(priceCompare).filter(roomsCompare).filter(guestsCompare).filter(featuresCompare);
     var fragment = document.createDocumentFragment();
 
-    if (window.result.length > COUNT_CARDS) {
-      window.result.length = COUNT_CARDS;
+    if (window.filteredData.length > COUNT_CARDS) {
+      window.filteredData.length = COUNT_CARDS;
     }
 
-    for (var i = 0; i < window.result.length; i++) {
-      fragment.appendChild(window.createPin(window.result[i], i));
+    for (var i = 0; i < window.filteredData.length; i++) {
+      fragment.appendChild(window.createPin(window.filteredData[i], i));
     }
     window.map.pinsContainer.appendChild(fragment);
   };

@@ -35,10 +35,10 @@
     var formError = document.querySelector('#error').content.querySelector('.error');
     var cloneForm = formError.cloneNode(true);
     mainContainer.appendChild(cloneForm);
-    var elemError = document.querySelector('.error');
-    elemError.querySelector('.error__message').textContent = errMess;
-    elemError.addEventListener('click', function () {
-      mainContainer.removeChild(elemError);
+    var elementError = document.querySelector('.error');
+    elementError.querySelector('.error__message').textContent = errMess;
+    elementError.addEventListener('click', function () {
+      mainContainer.removeChild(elementError);
     });
     document.addEventListener('keydown', onMessageErrorClose);
   };

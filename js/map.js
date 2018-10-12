@@ -31,7 +31,7 @@
     }
 
     window.getData(function (serverData) {
-      window.rawData = serverData.slice();
+      window.loadedData = serverData.slice();
       window.filter.onFilterFormChange();
     }, window.messageError);
   };
@@ -61,7 +61,7 @@
     var target = evt.target;
     while (target !== pinsContainer) {
       if (target.tagName === 'BUTTON' && target.dataset.id) {
-        var moveCard = window.card.createCard(window.result[target.dataset.id]);
+        var moveCard = window.card.createCard(window.filteredData[target.dataset.id]);
         map.insertBefore(moveCard, mapFilters);
 
         var cardsAmount = document.querySelectorAll('.map__card');
