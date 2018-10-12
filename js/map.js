@@ -60,7 +60,7 @@
   pinsContainer.addEventListener('click', function (evt) {
     var target = evt.target;
     while (target !== pinsContainer) {
-      if (target.tagName === 'BUTTON') {
+      if (target.tagName === 'BUTTON' && target.dataset.id) {
         var moveCard = window.card.createCard(window.result[target.dataset.id]);
         map.insertBefore(moveCard, mapFilters);
 
