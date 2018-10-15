@@ -30,6 +30,7 @@
       adFormFieldsets[j].disabled = false;
     }
 
+    window.upload.setActived();
     window.backend.getData(function (serverData) {
       window.loadedData = serverData.slice();
       window.filter.onFormChange();
@@ -50,6 +51,7 @@
     window.map.adForm.reset();
     window.filter.form.reset();
     window.filter.disableForm();
+    window.upload.setDisabled();
     addressInput.value = setAddress(mapPinMain);
     window.pin.deletePins();
     closePopup();
